@@ -12,6 +12,7 @@ class Sample<T> {
                 field = value;
             }
         }
+        get() = field
 
     val isEmpty: Boolean
         get() = this.list.isEmpty();

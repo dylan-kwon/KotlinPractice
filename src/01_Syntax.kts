@@ -63,6 +63,18 @@
  *        예) 10.sum(5) --> 10 sum 5 (.이 사라졌다.)
  *        다만 확장 함수의 매개변수가 하나일 경우에만 사용할 수 있다.
  *
+ * intA..intB: IntRange 정의 (intA ~ intB를 포함)
+ *
+ * when: Java의 Switch문에 해당한다. (kotlin에는 switch가 존재하지 않는다.)
+ *
+ * is or !is: if와 같이 사용함. if(10 is Int)
+ *            when과 같이 사용함. when의 비교 조건에 변수 타입이 있는 경우 is String -> {..}와 같이 사용 가능.
+ *
+ * in or !in: if와 같이 사용함. if(10 in 0..10)
+ *            for와 같이 사용함 for(i in "name")
+ *            when과 같이 사용함. when의 비교 조건에 IntRange가 있는 경우 in 1..10 -> {..}와 같이 사용 가능.
+ *
+ *
  * 1. naming: type 에서 콜론 뒤의 타입은 변수든 함수든 생략 가능하다.
  */
 
@@ -97,7 +109,6 @@ fun getVal(): String = strValuable;
 for (item in getVar()) {
     println("char($item)");
 }
-
 
 /**
  * Nullable
@@ -152,4 +163,23 @@ lateInitVariable = "lateInit variable"
 println(lateInitVariable);
 
 
+/**
+ * when
+ */
+val a: Int = 30;
+val range: IntRange = 10..19;
 
+when (a) {
+    1, 9 -> {
+        println("$a = 1 or 9");
+    }
+    in range -> {
+        println("$a = 10 .. 19");
+    }
+    !in 20..29 -> {
+        println("$a = not 20 .. 29");
+    }
+    else -> {
+        println("$a = not found");
+    }
+}

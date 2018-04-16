@@ -4,7 +4,9 @@
  * 디폴트 생성자에는 메소드 바디가 없기 때문에 init {...} 구문을 통해 정의한다.
  * 오버로드 생성자는 메소드 바디를 가질 수 있으며, init {...} 구문 이후 실행된다. (다만 init에서 한번에 초기화 하는게 좋다는 의견)
  */
-class ClassName (private var strValue: String = "strValue", private var intValue: Int = 0) {
+class ClassName(
+        private var strValue: String = "strValue",
+        private var intValue: Int = 0) {
 
     public constructor(strValue: String) : this(strValue, 0);
     public constructor(intValue: Int) : this("strValue", intValue);
