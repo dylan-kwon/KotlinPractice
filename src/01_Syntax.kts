@@ -74,6 +74,8 @@
  *            for와 같이 사용함 for(i in "name")
  *            when과 같이 사용함. when의 비교 조건에 IntRange가 있는 경우 in 1..10 -> {..}와 같이 사용 가능.
  *
+ * it: Lambda식에서 single parameter를 대체하는 키워드.
+ *
  *
  * 1. naming: type 에서 콜론 뒤의 타입은 변수든 함수든 생략 가능하다.
  */
