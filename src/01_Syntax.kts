@@ -76,6 +76,13 @@
  *
  * it: Lambda식에서 single parameter를 대체하는 키워드.
  *
+ * {naming}@ or @{naming}: 왼쪽이 선언, 오른쪽이 사용이다.
+ *            this, return, break, continue 등을 사용할 때, 대상을 명시하는 것
+ *            예를들어 이중포문이 있는데 이너 포문 i, j 중 j에서 break를 한 경우 Java는 j를 중단하고 다음 i를 실행하지만 loopI@를 정의하고 break@loopI를 선언한 경우 i를 break;한다.
+ *
+ * this: Java에서 사용하던 this와 같다. 다만 확장 함수의 경우 확장하는 객체를 가르킨다.
+ *       func Int.foo() { this } Java의 경우 함수 내부의 this는 상위 클래스를 가르키지만 Kotlin의 경우 Int를 가르킨다.
+ *
  *
  * 1. naming: type 에서 콜론 뒤의 타입은 변수든 함수든 생략 가능하다.
  */
