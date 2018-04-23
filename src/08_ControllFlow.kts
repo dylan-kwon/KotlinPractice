@@ -81,12 +81,17 @@ val map: MutableMap<Int, String> = mutableMapOf(
         3 to "third"
 );
 
+
 for (value in map.keys) {
     println("value = $value");
 }
 
 for (value in map.values) {
     println("value = $value");
+}
+
+for (item in map) {
+    println("key = ${item.key} // value = ${item.value}");
 }
 
 for ((key, value) in map) {

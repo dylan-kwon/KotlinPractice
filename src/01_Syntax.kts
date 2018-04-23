@@ -27,6 +27,10 @@
  * ?:   변수 타입 뒤에 사용한 경우 => 해당 변수는 Nullable하다는 것을 명시.
  *      변수명 뒤에 사용한 경우 => null safety 체크
  *
+ * {?:} : strVariable?.length;을 실행한 경우 strVariable이 null인 경우 exception이 발생하지 않고 'null'이 출력된다.
+ *        strVariable?.length ?: 0; 다음과 같이 ?: {value};를 추가한 경우 null 대신 {value}가 출력된다.
+ *
+ *
  * Any: 변수 타입 중 하나로써 어떠한 타입도 허용한다는 의미를 갖는다.
  *      Java의 Object 타입에 해당
  *      String으로 초기화된 변수에 Int값을 넣는 등
@@ -81,7 +85,18 @@
  *            예를들어 이중포문이 있는데 이너 포문 i, j 중 j에서 break를 한 경우 Java는 j를 중단하고 다음 i를 실행하지만 loopI@를 정의하고 break@loopI를 선언한 경우 i를 break;한다.
  *
  * this: Java에서 사용하던 this와 같다. 다만 확장 함수의 경우 확장하는 객체를 가르킨다.
- *       func Int.foo() { this } Java의 경우 함수 내부의 this는 상위 클래스를 가르키지만 Kotlin의 경우 Int를 가르킨다.
+ *       func Int.foo() { this } Java의 경우 함수 내부의 this는 클래스를 가르키지만 Kotlin의 경우 Int를 가르킨다.
+ *       람다식 안에서의 this는 인터페이스가 아닌 클래스를 가르킨다.
+ *
+ * try-catch: Java의 try-catch와 같다.
+ *       다만 val value:any = { value } catch { value}; 로 변수 초기화가 가능하다.
+ *
+ * as or as?: 형변환 키워드
+ *     val object: Any = "string"
+ *     val int: Int = object as Int;
+ *     val string: String = object as String;
+ *     위의 예시에서 int형 변환은 exception이 발생하게 된다. 따라서 아래와 같이 as?를 사용하여 안전한 형변환을 시도한다.
+ *     val int: Int = object as? Int;
  *
  *
  * 1. naming: type 에서 콜론 뒤의 타입은 변수든 함수든 생략 가능하다.

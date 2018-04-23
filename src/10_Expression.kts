@@ -34,10 +34,10 @@ class SampleA {
             val b = this@SampleB;
             val c = this;
             val d = this@foo;
-            println("a.hashcode = ${a.hashCode()}")
-            println("b.hashcode = ${b.hashCode()}")
-            println("c.hashcode = ${c.hashCode()}")
-            println("d.hashcode = ${d.hashCode()}")
+            println("a.hashcode = ${a.hashCode()}");
+            println("b.hashcode = ${b.hashCode()}");
+            println("c.hashcode = ${c.hashCode()}");
+            println("d.hashcode = ${d.hashCode()}");
         }
 
         fun test(a: Int) {
@@ -48,7 +48,12 @@ class SampleA {
 
     fun test() {
         mSampleB.test(0);
-        println("f.hashcode = ${this.hashCode()}")
+        println("f.hashcode = ${this.hashCode()}");
+
+        val mutableList: MutableList<Int> = mutableListOf(1);
+        mutableList.forEach {
+            println("g.hashcode = ${this.hashCode()}");
+        }
     }
 }
 
