@@ -39,5 +39,3 @@ functionE(18, email = "seokchan.dev@gmail.com", name = "seokchan.kwon");
 println(100.sum(50));
 println(100 minus 50 minus 25);
 println(200.increase());
-
-

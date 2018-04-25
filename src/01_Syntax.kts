@@ -70,6 +70,23 @@
  * intA..intB: IntRange 정의 (intA ~ intB를 포함)
  *
  * when: Java의 Switch문에 해당한다. (kotlin에는 switch가 존재하지 않는다.)
+ *       else가 반드시 추가되어야 한다.
+ *       when(value) {
+ *          is String -> {
+ *              ...
+ *          }
+ *          0 -> {
+ *              ...
+ *          }
+ *          1, 2 -> {
+ *              ...
+ *          }
+ *          !in 0..100 -> {
+ *              ...
+ *          }
+ *          else -> {
+ *              ...
+ *       }
  *
  * is or !is: if와 같이 사용함. if(10 is Int)
  *            when과 같이 사용함. when의 비교 조건에 변수 타입이 있는 경우 is String -> {..}와 같이 사용 가능.
@@ -89,14 +106,35 @@
  *       람다식 안에서의 this는 인터페이스가 아닌 클래스를 가르킨다.
  *
  * try-catch: Java의 try-catch와 같다.
- *       다만 val value:any = { value } catch { value}; 로 변수 초기화가 가능하다.
+ *       다만 val value:any = { value } catch(exception) { value}; 로 변수 초기화가 가능하다. (if, when도 마찬가지로 가능하다.)
  *
  * as or as?: 형변환 키워드
  *     val object: Any = "string"
  *     val int: Int = object as Int;
  *     val string: String = object as String;
  *     위의 예시에서 int형 변환은 exception이 발생하게 된다. 따라서 아래와 같이 as?를 사용하여 안전한 형변환을 시도한다.
- *     val int: Int = object as? Int;
+ *     val int: Int = object as? Int ?: 0;
+ *
+ * .let: null check 방법 중 하나. elvis 문법과 함께 사용하여 null일 경우를 처리할 수 있다.
+ *       variable?.let {
+ *          println(variable?.member ?: 0)
+ *       } ?: let {
+ *          println("variable is null")
+ *       }
+ *
+ * @JvmOverloads constructor + class default 생성자 매개변수의 기본값 설정
+ *       세컨더리 생성자를 정의하지 않아도 Java에서 호출 시 overload된 생성자가 자동으로 생성됨.
+ *
+ * override: 클래스의 함수 및 변수를 오버라이드 할 수 있다.
+ *       override val ...
+ *       override var ...
+ *       override fun ...
+ *
+ * companion object { ... }: Java static처럼 클래스 변수 및 함수에 직접 접근할 수 있게 하는 키워드
+ *      ClassName.variable;
+ *      ClassName.function();
+ *
+ *
  *
  *
  * 1. naming: type 에서 콜론 뒤의 타입은 변수든 함수든 생략 가능하다.

@@ -4,7 +4,7 @@ fun getSizeB(string: String?): Int = string?.length ?: 0;
 println(getSizeA(null) ?: "getSizeA('null') is null");
 println(getSizeB(null));
 
-data class Sample(val id: Int?, val name: String?, val age: Int?);
+open class Sample(val id: Int?, val name: String?, val age: Int?);
 
 val sampleA: Sample? = null;
 val sampleB: Sample? = Sample(0, null, 20);
