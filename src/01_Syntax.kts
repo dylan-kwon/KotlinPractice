@@ -134,6 +134,29 @@
  *      ClassName.variable;
  *      ClassName.function();
  *
+ * sealed class:
+ *      sealed 클래스는 private 생성자를 가진다.
+ *      sealed 클래스는 Abstract 클래스다.
+ *      sealed 클래스와 이를 상속받는 클래스는 하나의 파일 안에 정의되어야 한다.
+ *      abstract 메소드를 정의할 수 있다.
+ *      when과 같이 사용할 경우 when의 else 구문이 필요하지 않다.
+ *
+ * data class:
+ *      JAVA POJO 클래스와 동일하다.
+ *      생성자에 변수만 선언하면 자동으로 getter 및 setter와 toString, hasocode 까지 자동으로 정의해준다.
+ *
+ * inner class:
+ *      JAVA InnerClass와 동일하다.
+ *      inner 키워드 없이 class만 사용하여 정의한 경우 static innerClass가 생성된다
+ *          따라서 내부 클래스에서 외부 클래스로의 참조는 불가능하다.
+ *      외부 클래스에서 내부 클래스에 접근하려면 인스턴스를 생성해야 한다.
+ *
+ * object class: Kotlin에서 Singleton을 구현할 때 사용한다.
+ *      생성자를 가질 수 없다.
+ *
+ * AnonymousInnerClass: 익명 클래스
+ *      object: interface를 통해 정의할 수 있다.
+ *
  *
  *
  *

@@ -10,9 +10,18 @@ class CompanionObject {
 
         fun isTypeZero(): Boolean = type == 0;
 
+    }
 
+    class Extra {
+        companion object {
+            val ID = "Activity.Extra.id";
+        }
     }
 }
 
 println(CompanionObject.getType());
 println(CompanionObject.isTypeZero());
+println(CompanionObject.Extra.ID);
+
+
+Activity.Extra.ID
