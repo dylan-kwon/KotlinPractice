@@ -1,4 +1,4 @@
-class Button {
+open class Button {
 
     private var mOnClickListener: OnClickListener? = null;
 

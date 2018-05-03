@@ -6,7 +6,6 @@ object SingletonA {
 println(SingletonA.intValue);
 println(SingletonA.strValue);
 
-
 private class SingletonB(val name: String) {
 
     companion object {

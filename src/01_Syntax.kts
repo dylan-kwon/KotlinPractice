@@ -157,6 +157,21 @@
  * AnonymousInnerClass: 익명 클래스
  *      object: interface를 통해 정의할 수 있다.
  *
+ * HigherOrderFunctions:
+ *      함수를 파라메터로 전달하거나, 함수를 리턴 가능
+ *      lambda를 통해 축약 형태로 제공
+ *      변수로 함수를 가질 수 있다.
+ *      함수 파라메터가 하나인 경우 소괄호를 생략할 수 있다.
+ *
+ *     fun function(function: (Int, String) -> String) {
+ *          function(0, "string");
+ *     }
+ *
+ *     function ({ one, two ->
+ *         "$one, $two"
+ *     })
+ *
+ *
  *
  *
  *
