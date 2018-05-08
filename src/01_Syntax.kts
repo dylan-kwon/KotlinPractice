@@ -122,6 +122,26 @@
  *          println("variable is null")
  *       }
  *
+ * .apply: 객체를 생성함과 동시에 변수를 초기화 할 때 사용한다.
+ *      val user: User().apply {
+ *          age = 21;
+ *          name = "seokchan.kwon";
+ *      }
+ *
+ * .run: 이미 생성된 객체에 접근할 때 사용한다.
+ *       .apply{ .. }는 초기화된 객체를 리턴하지만 run은 블록을 리턴한다는 점에서 차이가 있다.
+ *       따라서 apply{ .. }와 같이 :User 타입의 변수에 담을 수 없다.
+ *       user.run {
+ *          age = 22;
+ *       }
+ *
+ * .with: 변수에 접근할 때 사용한다.
+ *        .run { .. }과 쓰임새가 비슷한듯.
+ *         with(user) { this: User
+ *              age = 23;                   혹은 this.age = 23;
+ *              name = "seokchan.kim";      혹은 this.name = "seokchan.kim";
+ *         }
+ *
  * @JvmOverloads constructor + class default 생성자 매개변수의 기본값 설정
  *       세컨더리 생성자를 정의하지 않아도 Java에서 호출 시 overload된 생성자가 자동으로 생성됨.
  *

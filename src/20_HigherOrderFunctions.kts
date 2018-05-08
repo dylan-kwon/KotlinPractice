@@ -52,3 +52,4 @@ print("HigherOrderFunction", {
 }, {
     it * 10
 }, getFunction);
+
