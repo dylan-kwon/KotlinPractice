@@ -142,6 +142,32 @@
  *              name = "seokchan.kim";      혹은 this.name = "seokchan.kim";
  *         }
  *
+ * .also: 두개의 블록을 this와 it으로 구분한다.
+ *        아래 메소드에서 user 객체는 this로 접근 가능하다.
+ *        아래 메소드에서 User()로 새로 생성된 객체는 it으로 접근 가능하다.
+ *
+ *        fun User.copy(): User = User().also {
+ *              it.age = this.age;
+ *              it.name = this.name;
+ *        }
+ *        let copyUser:User = user.copy();
+ *
+ * .takeIf: 블록 내에서 Boolean 타입으로 리턴한 결과에 따라 리턴되는 값이 달리진다.
+ *          true인 경우 자기 자신이 리턴된다.
+ *          false인 경우 null이 리턴된다.
+ *
+ *          user.takeIf {
+ *              age > 20;
+ *          }
+ *
+ *          위 age > 20;이 true인 경우 user객체가, false인 경우 null이 리턴된다.
+ *
+ *
+ * .takeUnless: takeIf와 완전히 반대되는 값을 리턴한다.
+ *          true인 경우 null.
+ *          false인 경우 자기 자신이 리턴된다.
+ *
+ *
  * @JvmOverloads constructor + class default 생성자 매개변수의 기본값 설정
  *       세컨더리 생성자를 정의하지 않아도 Java에서 호출 시 overload된 생성자가 자동으로 생성됨.
  *
