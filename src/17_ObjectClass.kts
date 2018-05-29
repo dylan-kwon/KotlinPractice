@@ -1,6 +1,13 @@
+class Button {
+    init {
+        println("button class init");
+    }
+}
+
 object SingletonA {
     const val intValue: Int = 100;
     const val strValue: String = "SingletonA.strValue";
+    val button: Button = Button();
 }
 
 println(SingletonA.intValue);
@@ -22,3 +29,6 @@ private class SingletonB(val name: String) {
 
 
 println(SingletonB.getInstance("SingletonB").name);
+
+
+SingletonA.button;

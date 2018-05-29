@@ -199,6 +199,7 @@
  *
  * object class: Kotlin에서 Singleton을 구현할 때 사용한다.
  *      생성자를 가질 수 없다.
+ *      변수 접근과 동시에 초기화가 이루어진다.
  *
  * AnonymousInnerClass: 익명 클래스
  *      object: interface를 통해 정의할 수 있다.
@@ -217,8 +218,20 @@
  *         "$one, $two"
  *     })
  *
+ * Generic: 제너릭
+ *      <> 사이에 파라메터의 타입을 정의한다.
+ *      List<T> --> List<String> String 타입의 List가 된다.
+ *      fun <T> funName(); 과 같이 함수에도 사용할 수 있으며, .funName<String>();로 호출한다.
+ *      위 함수에서 매개변수로 T를 사용할 경우 파라미터의 타입으로 타입 추론이 가능해지므로 .funName();와 같이 축약할 수 있다.
+ *      Java에서는 제너릭을 생략한 경우 Object가 자동으로 정의되지만, Kotlin에서는 생략할 수 없다.
+ *      Java처럼 Object를 사용하고 싶은 경우 <Any>를 추가해야 한다.
  *
+ *      Wildcard
+ *      <*>: 모든 타입 허용. 모든 타입을 허용한다는 점에서 <Any>와 비슷하다.
+ *          단 <*>의 경우 타입 추론을 하겠다는 의미이며, <Any>는 모든 타입을 Object 타입으로 받겠다는 의미이다.
  *
+ *      <? super T>   : write 전용 -> ex) list.add(); 축약형 -> <in T>:  input의 약자이다.
+ *      <? extends T> : read 전용  -> ex) list.get(); 축약형 -> <out T>: output의 약자이다.
  *
  *
  * 1. naming: type 에서 콜론 뒤의 타입은 변수든 함수든 생략 가능하다.
