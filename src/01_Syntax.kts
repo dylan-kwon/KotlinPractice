@@ -234,6 +234,12 @@
  *      <? extends T> : read 전용  -> ex) list.get(); 축약형 -> <out T>: output의 약자이다.
  *
  *
+ * SAM: Single Abstract Methods.
+ *      Java에서 하나의 메소드를 가지는 Interface 혹은 abstract class와 setter를 정의해야 함.
+ *      예를들면 Android View의 View.OnClickListener와 view.setOnClickListener(l);
+ *      SAM을 사용하면 본디 view.setOnClickListener(object: View.OnClickListener { .. }); 와 같이 일반적인 방식으로 선언해야 하는 구문을 아래와 같이 축약할 수 있다.
+ *      view.setOnClickListener { ... }
+ *
  * 1. naming: type 에서 콜론 뒤의 타입은 변수든 함수든 생략 가능하다.
  */
 
