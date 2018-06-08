@@ -22,7 +22,7 @@
         2. [InnerClass](#inner-class)
         3. [Object](#object)
         4. [Companion-Object](#companion-object)
-        5. [DataClass](data-class)
+        5. [DataClass](#data-class)
     
 
 <a name="syntax"></a>
@@ -275,6 +275,31 @@ try {
 ```
 
 
+<a name="method"></a>
+### Method
+- 매개변수에 `default value`를 설정할 수 있으며, 함수 호출시 해당 인자를 생략할 수 있다..
+- 함수 호출 시 `매개변수명=값`을 통해 명시할 수 있다.
+- 리턴 타입이 `Unit`인 경우 생략한다.
+- 메소드 블록이 한줄인 경우 `{ }` 생략하고 `=`를 사용한다.
+- `일급 객체`이므로 변수에 할당할 수 있다.
+- `override` 키워드를 통해 확장할 수 있다.
+
+```kotlin
+fun getInt(): Int {
+    return 10
+}
+
+plus(b = 10) // return = 20
+fun plus(a: Int = 10, b: Int = 20) = a + b
+
+fun getString(): String = "return String";
+
+val functionValue: (Int, String) -> String = { int, str ->
+    str + int.toString()
+}
+```
+
+
 <a name="class"></a>
 ### Class
 - 클래스와 메소드, 변수  기본적으로 `final`이다.
@@ -302,30 +327,8 @@ open class KotlinClass constructor(val intValue: Int = 10): SuperClass(), Interf
 ```
 
 
-<a name="method"></a>
-### Method
-- 매개변수에 `default value`를 설정할 수 있다.
-- 함수 호출 시 `매개변수명=값`을 통해 명시할 수 있다.
-- 리턴 타입이 `Unit`인 경우 생략한다.
-- 메소드 블록이 한줄인 경우 `{ }` 생략하고 `=`를 사용한다.
-- `일급 객체`이므로 변수에 할당할 수 있다.
-- `override` 키워드를 통해 확장할 수 있다.
-
-```kotlin
-fun getInt(): Int {
-    return 10
-}
-
-fun getString(): String = "return String";
-
-val functionValue: (Int, String) -> String = { int, str ->
-    str + int.toString()
-}
-```
-
-
 <a name="inner-class"></a>
-### Class
+### InnerClass
 - 클래스 내부에 클래스 정의를 통해 정의한다.
 - 이때 `inner class`를 통해 정의하면 일반적인 `inner class`가 생성된다.
 - `inner` 없이 `class`만 사용하여 정의한 경우 `static inner class`가 생성된다.
@@ -394,5 +397,68 @@ data class DataClass(
   val intVal: Int,  
   val strVal: String  
   ...
-);
+)
 ```
+
+
+<a name="generic"></a>
+### Generic
+- 기본적인 사용법은 `Java`와 같다.
+- `<>` 사이에 사용할 타입을 입력한다.
+- `<T>`: `getter/setter` 제한이 없는 제너릭이다.
+- `<in T>`: Input`(setter)` 전용 제너릭이다.
+- `<out T>`: Output`(getter)` 전용 제너릭이다.
+- `<*>`: 모든 타입을 혀용한다는 점에서 `<Any>`와 비슷하나 전자는 타입을 추론한다는 의미이며, 후자는 `<Object>`라는 의미다.
+- Java와 달리 제너릭을 생략할 수 없다. (자바의 경우 자동으로 Object 타입이 설정된다.)
+
+```
+interface Generic<out T> {
+    fun getItem(): T;       // success.
+    fun setItem(item: T);   // error.
+}
+
+class Sample : Generic<String> {
+    
+    init {
+        ...
+    }
+    
+    fun genericFunction(list: List<*>) {
+            ...
+    }
+   
+    fun <E> genericFunction(): E {
+        ...
+    }
+    
+    override fun getValue(): String {
+        ...
+    }
+    
+}
+
+val sample: Sample = Sample()
+
+val getItem1: Any = sample.getValue()
+if (getItem1 is String) // true
+
+val getItem2: Int = sample.genericFunction<Int>()
+val getItem3: String = sample.genericFunction<String>()
+``` 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
