@@ -4,7 +4,7 @@
 ## Index
 1. [문법](#syntax)
     1. [간단한 특징](#summary)
-    2. [변수, 상수](#variable-value)
+    2. 변수, 상수
         1. [타입](#variable-type)
         2. [선언](#variable-define)
         2. [Null](#variable-null)
@@ -15,7 +15,7 @@
 ## 문법
 
 <a name="summary"></a>
-### 1. 간단한 특징
+### 간단한 특징
 
 - 변수 선언시 타입 생략이 가능하다.
 - 세미콜론`;` 생략이 가능하다
@@ -24,12 +24,8 @@
 - 메소드를 `일급 객체`로 취급한다.
 - `==`는 값을 비교하며, `===`는 객체 메모리 주소를 비교한다.
 
-<a name="variable-value"></a>
-### 2. 변수, 상수
-***
-
 <a name="variable-type"></a>
-#### 2-1. 타입
+### 자료형
 - `String`: 문자열 타입.
 - `Int`: 정수 타입.
 - `Long`: 정수 타입. `Int의 2배`
@@ -50,7 +46,7 @@ val boolean: Boolean = true
 ``` 
 
 <a name="variable-define"></a>
-#### 2-2. 선언
+### 변수 선언
 - `var`: 변수
 - `val`: 상수
 - `const`: `object`나 `companion object` 내에서 `const val`과 같이 사용한다. Java에서 `클래스명.변수명`으로 접근이 가능하다.
@@ -75,7 +71,7 @@ strVariable = "hello"   // success.
 ```
 
 <a name="variable-null"></a>
-#### 2-3. Null
+### Null
 - `Kotlin`은 기본적으로 모든 변수, 상수에 대해서 `non-null` 타입이다.
 - `?`: 변수 타입 뒤에 사용하며, `null`을 허용하거나 `nullable` 객체에 안전하게 접근할 수 있다.
 - `!!`: 객체에 접근할 때 사용하며, `non-null`임을 명시한다.
@@ -93,7 +89,7 @@ strVariable2!!.toString()  // success.
 ```
 
 <a name="variable-init"></a>
-#### 2-4. 초기화
+### 변수 초기화
 - 변수에 접근시 초기화 하는 `늦은 초기화`를 제공한다.
 - `lateinit`: `var`와 함께 사용한다.
 - `by lazy`: `val`과 함께 사용한다.
@@ -107,12 +103,8 @@ val b: String by lazy {
 }
 ```
 
-<a name="conditional"></a>
-### 3. 조건문
-***
-
-<a name="conditional-if-else"></a>
- #### 3-1. If-Else
+<a name="if-else"></a>
+ ### If-Else
  - `Java`와 사용법이 같다.
  - `Kotlin`에는 3항 연산자가 없기 때문에 `if-else`를 한줄로 쓰는 방법을 사용한다.
  - 블록의 마지막 라인이 리턴으로 작용한다. 
@@ -140,8 +132,8 @@ val b: String by lazy {
  ```
 
 
-<a name="conditional-when"></a>
- #### 3-2. When
+<a name="when"></a>
+ ### When
 
 
 
