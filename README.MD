@@ -26,6 +26,7 @@
 
 <a name="variable-value"></a>
 ### 2. 변수, 상수
+***
 
 <a name="variable-type"></a>
 #### 2-1. 타입
@@ -108,6 +109,7 @@ val b: String by lazy {
 
 <a name="conditional"></a>
 ### 3. 조건문
+***
 
 <a name="conditional-if-else"></a>
  #### 3-1. If-Else
