@@ -16,6 +16,14 @@
         1. [For](#for)
         2. [While](#while)
     5. [Try-Catch](#try-catch)        
+    6. [Method](#method)
+    7. Class
+        1. [Class](#class)
+        2. [InnerClass](#inner-class)
+        3. [Object](#object)
+        4. [Companion-Object](#companion-object)
+        5. [DataClass](data-class)
+    
 
 <a name="syntax"></a>
 ## 문법
@@ -267,16 +275,124 @@ try {
 ```
 
 
+<a name="class"></a>
+### Class
+- 클래스와 메소드, 변수  기본적으로 `final`이다.
+- `open` 키워드를 통해 `final` 속성을 제거할 수 있다.
+- `init { ... }` 구문을 통해 초기화 작업을 할 수 있다.
+- `constructor`는 생략할 수 있다.
+- `constructor`를 통해 받는 매개변수는 전역변수로써 사용할 수 있다.
+- 생성자 `overload`시 리턴 타입으로 `this()`로 최상위 생성자를 호출해야 한다.
+- 다만 생성자 오버로드 없이 최상위 생성자에 `default value`를 설정하는 방법이 좋다.
+- 클래스 상속을 위해 `:`을 사용한다.
+- 추가로 Implements 할 Interface는 상속 클래스 옆 `,`으로 연속해서 정의한다.
+
+```kotlin
+open class KotlinClass constructor(val intValue: Int = 10): SuperClass(), Interface {
+    
+    init {
+        ...
+    }
+    
+    override fun overrideMethod() {
+        ...
+    }
+
+}  
+```
 
 
+<a name="method"></a>
+### Method
+- 매개변수에 `default value`를 설정할 수 있다.
+- 함수 호출 시 `매개변수명=값`을 통해 명시할 수 있다.
+- 리턴 타입이 `Unit`인 경우 생략한다.
+- 메소드 블록이 한줄인 경우 `{ }` 생략하고 `=`를 사용한다.
+- `일급 객체`이므로 변수에 할당할 수 있다.
+- `override` 키워드를 통해 확장할 수 있다.
+
+```kotlin
+fun getInt(): Int {
+    return 10
+}
+
+fun getString(): String = "return String";
+
+val functionValue: (Int, String) -> String = { int, str ->
+    str + int.toString()
+}
+```
 
 
+<a name="inner-class"></a>
+### Class
+- 클래스 내부에 클래스 정의를 통해 정의한다.
+- 이때 `inner class`를 통해 정의하면 일반적인 `inner class`가 생성된다.
+- `inner` 없이 `class`만 사용하여 정의한 경우 `static inner class`가 생성된다.
+
+```kotlin
+class OuterClass {
+    
+    init {
+        ...
+    }
+    
+    class StaticInnerClass {
+        ...
+    }
+    
+    inner class InnerClass {
+        ...
+    }
+    
+}
+```
 
 
+<a name="object"></a>
+### Object
+- `Singleton`을 쉽게 생성해주는 클래스다.
+- 블록 내에 선언된 객체는 `Singleton`으로 생성된다.
+- `클래스명.변수명`으로 접근한다.
+
+```kotlin
+object ObjectClass {
+    const var SINGLETON_STRING: Int = 100           // error.
+    const val SINGLETON_STRING: String = "STRING"   // success.
+}
+```
 
 
+<a name="companion-object"></a>
+### Companion-Object
+- `static` 변수 또는 메소드를 정의한다.
+- `클래스명.변수명`으로 접근한다.
+- `object`와 차이접은 `Singleton`과 `static`의 차이다.
 
+```kotlin
+class CompanionObject {
+    
+    init {
+        ...
+    }
+    
+    companion object {
+        const val intValue: Int = 100;
+        fun getValue(): Int = intValue;
+    }
+    
+}
+```
 
+<a name="data-class"></a>
+### DataClass
+- `POJO` 클래스다.
+- `.equals()`, `.hashCode()`, `.toString()` 함수가 미리 정의되어있다.
 
-
-
+```kotlin
+data class DataClass(
+  val intVal: Int,  
+  val strVal: String  
+  ...
+);
+```
