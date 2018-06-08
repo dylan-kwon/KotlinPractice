@@ -348,3 +348,11 @@ when (a) {
         println("$a = not found");
     }
 }
+
+var test = if (true) {
+    "string"
+} else {
+    "Test"
+}
+
+val test = if (true) true else false

@@ -117,12 +117,3 @@ toggleButton.onLongClick();
 toggleButton.onLongClick();
 toggleButton.onLongClick();
 
-
-
-
-
-
-
-
-
-
