@@ -9,7 +9,13 @@
         2. [선언](#variable-define)
         2. [Null](#variable-null)
         2. [초기화](#variable-init)
-    3. 
+    3. 조건문
+        1. [If-Else](#if-else)
+        2. [When](#when)
+    4. 반복문
+        1. [For](#for)
+        2. [While](#while)
+    5. [Try-Catch](#try-catch)        
 
 <a name="syntax"></a>
 ## 문법
@@ -103,13 +109,35 @@ val b: String by lazy {
 }
 ```
 
+<a name="compare"></a>
+### 비교
+- `==`: 값 자체를 비교한다.
+- `===`: 메모리 주소를 비교한다.
+- `is`: 객체 타입을 비교한다.
+- `in`: 해당 값이 범위에 포함되었는지 비교한다.
+
+```kotlin
+var i = 10;
+var s1 = "string"
+var s2 = "string"
+
+println(i == 10)        // true
+println(s1 == "string") // true
+
+println(s1 == s2)       // true
+println(s1 === s2)      // false
+
+println(i in 0..9)      // false
+println(s1 is String)   // true
+``` 
+
 <a name="if-else"></a>
  ### If-Else
  - `Java`와 사용법이 같다.
  - `Kotlin`에는 3항 연산자가 없기 때문에 `if-else`를 한줄로 쓰는 방법을 사용한다.
- - 블록의 마지막 라인이 리턴으로 작용한다. 
+ - 블록의 마지막 라인이 `return`으로 작용한다. 
  
- ``` kotlin
+ ```kotlin
  if ( ... ) {
      ...
      
@@ -128,19 +156,115 @@ val b: String by lazy {
  }
  
  val value: String = if (true) "true" else "false"
- 
+
  ```
 
 
 <a name="when"></a>
  ### When
+ - `Java`의 `switch-case`와 비슷하다.
+ - `if-else`와 같이 블록의 마지막 라인은 `return`이다.
+ - 비교 조건이 유연하다.
+ 
+ ```kotlin
+ when( ... ) {
+    1 -> {
+        ...
+    }
+    1, 10 -> {
+        ...
+    }
+    "string" -> {
+        ...
+    }
+    is String -> {
+        ...
+    }
+    !in 1..10 -> {
+        ...
+    }
+    else -> {
+        ...  
+    }
+ }
+ ```
+ 
+<a name="for"></a>
+### for
+- 일반적인 모던 언어의 `for-each`문
+```kotlin
+// Int Range.
+for (i in 0..10 step 2) {
+    ...
+}
 
 
+// String (array와 같다.)
+for (s in "string") {
+    ...
+}
+
+for (i in strValue.indices) {
+    ...
+}
+
+for ((i, s) in strValue.withIndex()) {
+    ...
+}
 
 
+// Map.
+val map: MutableMap<Int, String> = mutableMapOf(
+        1 to "first",
+        2 to "second",
+        3 to "third"
+);
+
+for (key in map.keys) {
+    ...
+}
+
+for (value in map.values) {
+    ...
+}
+
+for (item in map) {
+    item.key
+    item.value
+    ...
+}
+
+for ((key, value) in map) {
+    ...
+}
+```
+
+<a name="while"></a>
+### While
+- `Java`와 같다.
+```kotlin
+while( ... ) {
+    ...
+}
+```
 
 
+<a name="try-catch"></a>
+### Try-Catch
+- 블록의 마지막 라인을 `return`한다.
+- 그 외에는 `Java`와 같다.
 
+```kotlin
+try {
+    ...
+    
+} catch(e: Exception) {
+    ...
+    
+} finally {
+    ...
+}
+```
 
 
 
