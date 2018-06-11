@@ -19,10 +19,13 @@
     6. [Method](#method)
     7. Class
         1. [Class](#class)
-        2. [InnerClass](#inner-class)
+        2. [Inner Class](#inner-class)
         3. [Object](#object)
         4. [Companion-Object](#companion-object)
-        5. [DataClass](#data-class)
+        5. [Data Class](#data-class)
+        6. [Abstract Class](#abstract-class)
+    8. [Interface](#intface)
+    9. [Generic](#generic)
     
 
 <a name="syntax"></a>
@@ -310,6 +313,7 @@ val functionValue: (Int, String) -> String = { int, str ->
 - 생성자 `overload`시 리턴 타입으로 `this()`로 최상위 생성자를 호출해야 한다.
 - 다만 생성자 오버로드 없이 최상위 생성자에 `default value`를 설정하는 방법이 좋다.
 - 클래스 상속을 위해 `:`을 사용한다.
+- `open` 변수를 `override` 할 수 있다.
 - 추가로 Implements 할 Interface는 상속 클래스 옆 `,`으로 연속해서 정의한다.
 
 ```kotlin
@@ -328,7 +332,7 @@ open class KotlinClass constructor(val intValue: Int = 10): SuperClass(), Interf
 
 
 <a name="inner-class"></a>
-### InnerClass
+### Inner Class
 - 클래스 내부에 클래스 정의를 통해 정의한다.
 - 이때 `inner class`를 통해 정의하면 일반적인 `inner class`가 생성된다.
 - `inner` 없이 `class`만 사용하여 정의한 경우 `static inner class`가 생성된다.
@@ -388,7 +392,7 @@ class CompanionObject {
 ```
 
 <a name="data-class"></a>
-### DataClass
+### Data Class
 - `POJO` 클래스다.
 - `.equals()`, `.hashCode()`, `.toString()` 함수가 미리 정의되어있다.
 
@@ -401,17 +405,81 @@ data class DataClass(
 ```
 
 
+<a name="abstract-class"></a>
+### Abstract Class
+- 기본적인 사용법은 `Java`와 같다.
+- `abstract`는 `open`을 포함하고 있다.
+    - 따라서 `open`을 명시하지 않아도 상속 및 변수, 함수 오버라이드가 가능하다.
+
+```kotlin
+abstract class AbstractClass {
+    
+    abstract val abstractValue: String;
+    
+    abstract fun abstractFunction(): String;
+}
+
+class ChildClass : AbstractClass() {
+
+    override val abstractValue: String = "abstract value"
+
+    override fun abstractFunction() = this.abstractValue;
+}
+```
+
+
+<a name="interface"></a>
+### Interface
+- 기본적인 사용법은 `Java`와 같다.
+- `open`을 명시하지 않아도 상속 및 변수와 메소드를 오버라이드 할 수 있다.
+- 익명 클래스로써 사용할 경우 `object` 키워드와 같이 사용한다.
+- 단 `callback`의 경우 [Higher-Order-Function](#higher-order-function)을 사용하는것이 좋다.
+
+```kotlin
+class Button {
+
+    private var onClickListener: OnClickListener? = null;
+    
+    fun onClick() {
+        this.onClickListener?.onClick()
+    }
+    
+    fun setOnClickListener(listener: OnClickListener) {
+        this.onClickListener = listener;
+    }
+    
+    interface OnClickListener {
+        fun onClick();
+    }
+
+}
+
+
+val button: Button = Button();
+
+button.setOnClickListener(object: Button.OnClickListener {
+    
+    override fun onClick() {
+        ...
+    }
+    
+})
+
+button.onClick();
+```
+
+
 <a name="generic"></a>
 ### Generic
 - 기본적인 사용법은 `Java`와 같다.
 - `<>` 사이에 사용할 타입을 입력한다.
 - `<T>`: `getter/setter` 제한이 없는 제너릭이다.
-- `<in T>`: Input`(setter)` 전용 제너릭이다.
-- `<out T>`: Output`(getter)` 전용 제너릭이다.
+- `<in T>`: Input`(setter)` 전용 제너릭이다. `<? super T>`로 사용할 수 있다.
+- `<out T>`: Output`(getter)` 전용 제너릭이다. `<? extends T>`로 사용할 수 있다.
 - `<*>`: 모든 타입을 혀용한다는 점에서 `<Any>`와 비슷하나 전자는 타입을 추론한다는 의미이며, 후자는 `<Object>`라는 의미다.
-- Java와 달리 제너릭을 생략할 수 없다. (자바의 경우 자동으로 Object 타입이 설정된다.)
+- Java와 달리 제너릭을 생략할 수 없으며, 반드시 명시해야 한다. 단 매개변수를 통해 타입 추론이 가능한 경우에만 생략 가능.
 
-```
+```kotlin
 interface Generic<out T> {
     fun getItem(): T;       // success.
     fun setItem(item: T);   // error.
@@ -423,15 +491,15 @@ class Sample : Generic<String> {
         ...
     }
     
-    fun genericFunction(list: List<*>) {
-            ...
+    override fun getValue(): String {
+        ...
     }
-   
+    
     fun <E> genericFunction(): E {
         ...
     }
     
-    override fun getValue(): String {
+    fun genericFunction(list: List<*>) {
         ...
     }
     
@@ -444,6 +512,9 @@ if (getItem1 is String) // true
 
 val getItem2: Int = sample.genericFunction<Int>()
 val getItem3: String = sample.genericFunction<String>()
+
+genericFunction(mutableList<Int>())
+genericFunction(mutableList<String>())
 ``` 
 
 
