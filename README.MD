@@ -34,7 +34,14 @@
     13. [Expression](#expression)
     14. [Lambda](#lambda)
     15. [Higher Order Function](#higher-order-function)
-    16. [Standard Library](#standard-library)
+    16. Standard Library
+        1. [let](#standard-library-let)
+        2. [apply](#standard-library-apply)
+        3. [run](#standard-library-run)
+        4. [with](#standard-library-with)
+        5. [also](#standard-library-also)
+        6. [takeIf](#standard-library-takeif)
+        7. [takeUnless](#standard-library-takeunless)
     17. [Single Abstract Method (SAM)](#sam)
     
 
@@ -808,8 +815,143 @@ list.filter {
 > ```
    
 
-<a name="standard-library"></a>
 ### Standard Library
+
+<a name="standard-library-let"></a>
+#### 1. let
+> - 주로 객체의 `null`체크를 할때 사용한다.
+> - 블록 내에서 `it`를 사용하여 객체에 접근할 수 있다.
+> - 블록의 마지막 줄이 리턴된다.
+> - `run`과 큰 차이가 없다.
+>   - `let`의 경우 블록이 접근한 객체를 매개변수로 같는 `lambda`식이기 때문에 `it`으로 접근한다.
+>   - `run`의 경우 블록이 접근한 객체를 확장한 `extension`한 것으로 `this`로 접근한다. 
+
+> ```kotlin
+> public inline fun <T, R> T.let(block: (T) -> R): R {
+>     contract {
+>         callsInPlace(block, InvocationKind.EXACTLY_ONCE)
+>     }
+>     return block(this)
+> }
+> ```
+  
+> ```kotlin
+> val name: String? = null;
+> 
+> name?.let {
+>     ...
+> 
+> } ?: let {
+>     ...
+> }
+> ```
+
+
+<a name="standard-library-apply"></a>
+#### 2. apply
+> - 객체의 생성과 동시에 값을 초기화할 때 유용하다.
+> - `Builder` 패턴같은 느낌으로 사용.
+> - 블록 내에서 `this`를 사용하여 객체에 접근할 수 있다.
+> - 접근한 객제 자신이 다시 리턴된다.
+
+> ```kotlin
+> public inline fun <T> T.apply(block: T.() -> Unit): T {
+>     contract {
+>         callsInPlace(block, InvocationKind.EXACTLY_ONCE)
+>     }
+>     block()
+>     return this
+> }
+> ```
+
+> ``` kotlin
+> class User(
+>         var age: Int = 0,
+>         var name: String = "",
+>         var email: String = ""
+> );
+> 
+> val user: User = User().apply {
+>     this.age = 21;
+>     this.name = "seokchan.kwon";
+>     this.email = "seokchan.kwon@gmail.com"
+> }
+> ```
+
+
+<a name="standard-library-run"></a>
+#### 3. run
+> - 이미 생성한 객체에 대하여 재 접근시 주로 사용한다.
+> - 블록 내에서 `this`를 사용하여 객체에 접근할 수 있다.
+> - 블록의 마지막 줄이 리턴된다.
+> - `let`과 큰 차이가 없다.
+>   - `let`의 경우 블록이 접근한 객체를 매개변수로 같는 `lambda`식이기 때문에 `it`으로 접근한다.
+>   - `run`의 경우 블록이 접근한 객체를 확장한 `extension`한 것으로 `this`로 접근한다. 
+
+> ```kotlin
+> public inline fun <T, R> T.run(block: T.() -> R): R {
+>     contract {
+>         callsInPlace(block, InvocationKind.EXACTLY_ONCE)
+>     }
+>     return block()
+> }
+> ```
+
+> ```kotlin
+> class User(
+>         var age: Int = 0
+>         var name: String = ""
+>         var email: String = ""
+> );
+> 
+> val user: User = User()
+> 
+> user.run {
+>     this.age = 23;
+> }
+> ```
+
+<a name="standard-library-with"></a>
+#### 4. with
+> - 이미 생성한 객체에 대하여 재 접근시 주로 사용한다.
+> - 블록 내에서 `this`를 사용하여 객체에 접근할 수 있다.
+> - `run`과 용도가 거의 비슷해 보인다.
+> - 블록의 마지막 줄이 리턴된다.
+
+> ```kotlin
+> public inline fun <T, R> with(receiver: T, block: T.() -> R): R {
+>     contract {
+>         callsInPlace(block, InvocationKind.EXACTLY_ONCE)
+>     }
+>     return receiver.block()
+> }
+> ```
+
+> ```kotlin
+> class Button(
+>         var text: String = "",
+>         var textSize: Float = 12f,
+>         var textColor: String = "#3dbff0"
+> );
+> 
+> val button: Button = Button()
+> 
+> with(button) {
+>     this.textSize = 21f;
+>     this.textColor = "#ffffff";
+> }
+> ```
+
+<a name="standard-library-also"></a>
+#### 5. also
+
+<a name="standard-library-takeif"></a>
+#### 6. takeIf
+
+<a name="standard-library-takeunless"></a>
+#### 7. takeUnless
+
+
 
 <a name="sam"></a>
 ### Single Abstract Method (SAM)
