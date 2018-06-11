@@ -5,10 +5,12 @@
 1. [문법](#syntax)
     1. [간단한 특징](#summary)
     2. 변수, 상수
-        1. [타입](#variable-type)
+        1. [자료형](#variable-type)
         2. [선언](#variable-define)
-        2. [Null](#variable-null)
-        2. [초기화](#variable-init)
+        3. [타입 캐스팅](#variable-type-cast)
+        4. [Null](#variable-null)
+        5. [초기화](#variable-init)
+        6. [Getter/Setter](variable-getter-setter)
     3. 조건문
         1. [If-Else](#if-else)
         2. [When](#when)
@@ -24,8 +26,16 @@
         4. [Companion-Object](#companion-object)
         5. [Data Class](#data-class)
         6. [Abstract Class](#abstract-class)
-    8. [Interface](#intface)
+    8. [Interface](#interface)
     9. [Generic](#generic)
+    10. [Elvis](#elvis)
+    11. [Extension](#extension)
+    12. [This](#this)
+    13. [Expression](#expression)
+    14. [Lambda](#lambda)
+    15. [Higher Order Function](#higher-order-function)
+    16. [Standard Library](#standard-library)
+    17. [Single Abstract Method (SAM)](#sam)
     
 
 <a name="syntax"></a>
@@ -34,12 +44,15 @@
 <a name="summary"></a>
 ### 간단한 특징
 
-- 변수 선언시 타입 생략이 가능하다.
+- 변수 선언시 `타입 생략`이 가능하다.
 - 세미콜론`;` 생략이 가능하다
 - 기본적으로 모든 변수, 상수는 `non-null` 타입이다.
 - 람다 함수의 기본 변수로 `it`을 사용한다.
 - 메소드를 `일급 객체`로 취급한다.
+- `getter`, `setter` 메소드를 호출할때 `클래스명.변수명 = value`으로 축약할 수 있다.
+- 객체의 함수나 프로퍼티를 임의로 `확장 정의`할 수 있다.
 - `==`는 값을 비교하며, `===`는 객체 메모리 주소를 비교한다.
+- Kotlin에서 `Abstract`와 `Interface`를 제외한 모든 `Class`는 기본적으로 `Final`이다.
 
 <a name="variable-type"></a>
 ### 자료형
@@ -55,10 +68,10 @@
 
 ```kotlin
 val string: String = "string"
-val int: String = 100
-val long: String = 100L
-val float: String = 10.0f
-val double: String = 10.0
+val int: Int = 100
+val long: Long = 100L
+val float: Float = 10.0f
+val double: Double = 10.0
 val boolean: Boolean = true 
 ``` 
 
@@ -80,11 +93,24 @@ object ObjectClass {
     const val SINGLETON_STRING: String = "STRING"   // success.
 }
 
-intValue = 10;          // error
+intValue = 10          // error
 intVariable = 100       // success
 
 strValue = "hello"      // error.
 strVariable = "hello"   // success. 
+```
+
+<a name="variable-type-cast"></a>
+### 타입 캐스팅
+- `as`: Kotlin에서 타입 캐스팅을 하기위한 예약어다.
+- `as?`: `TypeCastException`에 안전하게 캐스팅한다.
+- `?:`: [Elvis](#elvis)를 사용하면 실패시 `default value`를 설정할 수 있다.
+
+```kotlin
+"string" as Int                     // Exception
+"string" as? Int                    // return null
+
+"string" as? Int ?: "exception"    // return "exception
 ```
 
 <a name="variable-null"></a>
@@ -92,17 +118,19 @@ strVariable = "hello"   // success.
 - `Kotlin`은 기본적으로 모든 변수, 상수에 대해서 `non-null` 타입이다.
 - `?`: 변수 타입 뒤에 사용하며, `null`을 허용하거나 `nullable` 객체에 안전하게 접근할 수 있다.
 - `!!`: 객체에 접근할 때 사용하며, `non-null`임을 명시한다.
+- `?:`: [Elvis](#elvis)를 사용하면 실패시 `default value`를 설정할 수 있다.
 
 ```kotlin
-var strVariable1: String = null     // error.
-var strVariable2: String? = null    // succes.
+var strVariable1: String = null           // error.
+var strVariable2: String? = null          // succes.
 
-strVariable2.toString()    // warning.
-strVariable2?.toString()   // success. -> .toString()을 실행하지 않는다.
+strVariable2.toString()                   // warning.
+strVariable2?.toString()                  // .toString()을 실행하지 않는다.
+strVariable2?.toString() ?: "exception"   // .toString()을 실행하지 않고 "exception"을 리턴한다.
 
 strVariable = "string"
-strVariable2.toString()    // warning. -> 변수를 할당해도 warning이 나타난다.
-strVariable2!!.toString()  // success.
+strVariable2.toString()                   // 변수를 할당해도 선언 타입이 String? 이므로 warning이 나타난다.
+strVariable2!!.toString()                 // success.
 ```
 
 <a name="variable-init"></a>
@@ -120,6 +148,40 @@ val b: String by lazy {
 }
 ```
 
+
+<a name="variable-getter-setter"></a>
+### Getter/Setter
+- 따로 메소드를 정의하지 않아도 변수에 대한 `getter`,`setter`가 자동으로 생성된다.
+- `get()`: `getter` 메소드이며, `var`, `val` 관계 없이 오버라이드 할 수 있다.
+    - `클래스명.변수명`으로 접근할 수 있다.
+- `set()`: `setter` 메소드이며, `var` 변수에서만 오버라이드 할 수 있다.
+    - `클래스명.변수명 = setValue`로 값을 변경할 수 있다.
+- `get()` 혹은 `set()` 메소드 내부에서 `field` 키워드를 통해 값에 접근할 수 있다.
+
+```kotlin
+Class Example {
+
+val value: Int = 10
+    get() = field * 100
+
+
+var variable: Int = 10
+    get() = field * 100
+
+    set(value) {
+        field = value * 100
+    }
+
+}
+
+val example: Example = Example()
+
+example.variable = 10   // 10을 저장했지만 set()을 통해 100배 한 값이 저장된다.
+println(example.value)  // 실제 값은 10이지만 get()을 통해 100배한 값이 리턴된다.
+```
+
+
+
 <a name="compare"></a>
 ### 비교
 - `==`: 값 자체를 비교한다.
@@ -128,7 +190,7 @@ val b: String by lazy {
 - `in`: 해당 값이 범위에 포함되었는지 비교한다.
 
 ```kotlin
-var i = 10;
+var i = 10
 var s1 = "string"
 var s2 = "string"
 
@@ -202,7 +264,17 @@ println(s1 is String)   // true
  
 <a name="for"></a>
 ### for
-- 일반적인 모던 언어의 `for-each`문
+- **index** `(String, array 등)`
+    - 기본적으로 아이템을 인덱스 순서대로 하나씩 꺼내면서 순회한다.
+    - `변수명.indices`로 인덱스에 접근할 수 있다.
+    - `변수명.withIndex()`로 인덱스와 값에 동시에 접근할 수 있다.
+- **map**
+    - 기본적으로 map의 아이템을 하나씩 꺼내면서 순회한다.
+        - `e.key`:로 키에 접근할 수 있다.
+        - `e.value`:로 값에 접근할 수 있다.
+    - `변수명.keys`를 통해 키를 하나씩 꺼내면서 순회한다.
+    - `변수명.values`를 통해 값을 하나씩 꺼내면서 순회한다.
+
 ```kotlin
 // Int Range.
 for (i in 0..10 step 2) {
@@ -210,7 +282,7 @@ for (i in 0..10 step 2) {
 }
 
 
-// String (array와 같다.)
+// String (array와 사용법이 같다.)
 for (s in "string") {
     ...
 }
@@ -229,7 +301,7 @@ val map: MutableMap<Int, String> = mutableMapOf(
         1 to "first",
         2 to "second",
         3 to "third"
-);
+)
 
 for (key in map.keys) {
     ...
@@ -295,7 +367,7 @@ fun getInt(): Int {
 plus(b = 10) // return = 20
 fun plus(a: Int = 10, b: Int = 20) = a + b
 
-fun getString(): String = "return String";
+fun getString(): String = "return String"
 
 val functionValue: (Int, String) -> String = { int, str ->
     str + int.toString()
@@ -384,8 +456,8 @@ class CompanionObject {
     }
     
     companion object {
-        const val intValue: Int = 100;
-        fun getValue(): Int = intValue;
+        const val intValue: Int = 100
+        fun getValue(): Int = intValue
     }
     
 }
@@ -414,16 +486,16 @@ data class DataClass(
 ```kotlin
 abstract class AbstractClass {
     
-    abstract val abstractValue: String;
+    abstract val abstractValue: String
     
-    abstract fun abstractFunction(): String;
+    abstract fun abstractFunction(): String
 }
 
 class ChildClass : AbstractClass() {
 
     override val abstractValue: String = "abstract value"
 
-    override fun abstractFunction() = this.abstractValue;
+    override fun abstractFunction() = this.abstractValue
 }
 ```
 
@@ -438,24 +510,24 @@ class ChildClass : AbstractClass() {
 ```kotlin
 class Button {
 
-    private var onClickListener: OnClickListener? = null;
+    private var onClickListener: OnClickListener? = null
     
     fun onClick() {
         this.onClickListener?.onClick()
     }
     
     fun setOnClickListener(listener: OnClickListener) {
-        this.onClickListener = listener;
+        this.onClickListener = listener
     }
     
     interface OnClickListener {
-        fun onClick();
+        fun onClick()
     }
 
 }
 
 
-val button: Button = Button();
+val button: Button = Button()
 
 button.setOnClickListener(object: Button.OnClickListener {
     
@@ -465,7 +537,7 @@ button.setOnClickListener(object: Button.OnClickListener {
     
 })
 
-button.onClick();
+button.onClick()
 ```
 
 
@@ -476,13 +548,13 @@ button.onClick();
 - `<T>`: `getter/setter` 제한이 없는 제너릭이다.
 - `<in T>`: Input`(setter)` 전용 제너릭이다. `<? super T>`로 사용할 수 있다.
 - `<out T>`: Output`(getter)` 전용 제너릭이다. `<? extends T>`로 사용할 수 있다.
-- `<*>`: 모든 타입을 혀용한다는 점에서 `<Any>`와 비슷하나 전자는 타입을 추론한다는 의미이며, 후자는 `<Object>`라는 의미다.
-- Java와 달리 제너릭을 생략할 수 없으며, 반드시 명시해야 한다. 단 매개변수를 통해 타입 추론이 가능한 경우에만 생략 가능.
+- `<*>`: 모든 타입을 혀용한다는 점에서 `<Any>`와 비슷하나 전자 타입을 추론한다는 의미이며, 후자는 `<Object>`라는 의미다.
+- Java와 달리 제너릭을 생략할 수 없으며, 반드시 명시해야 한다. 단 타입 추론이 가능한 경우에는 생략 가능.
 
 ```kotlin
 interface Generic<out T> {
-    fun getItem(): T;       // success.
-    fun setItem(item: T);   // error.
+    fun getItem(): T       // success.
+    fun setItem(item: T)   // error.
 }
 
 class Sample : Generic<String> {
@@ -510,12 +582,238 @@ val sample: Sample = Sample()
 val getItem1: Any = sample.getValue()
 if (getItem1 is String) // true
 
-val getItem2: Int = sample.genericFunction<Int>()
-val getItem3: String = sample.genericFunction<String>()
+val getItem2: Int = sample.genericFunction<Int>()         // Generic 생략 가능
+val getItem3: String = sample.genericFunction<String>()   // Generic 생략 가능 
 
 genericFunction(mutableList<Int>())
 genericFunction(mutableList<String>())
-``` 
+```
+
+<a name="elvis"></a>
+### Elvis
+- `Kotlin`에서는 `?`연산자를 통해 `Nullable`한 객체에 안전하게 접근할 수 있다. 접근에 실패했을 경우에 `instance?.length ?: value`로 `defalt value`를 설정할 수 있다.
+- 같은 원리로 타입 캐스팅에 실패했을 경우에 대한 값을 지정할 수 있다.
+
+```Kotlin
+var strVariable:String? = null;
+
+var length1: Int = strVariable?.length         // return null
+var length2: Int = strVariable?.length ?: 0    // return 0
+
+var test2: String = length2 as? String ?: "0"
+```
+
+<a name="extension"></a>
+### Extension
+- 특정 클래스를 임의로 `확장`할 수 있다.
+- `this`: 값에 접근할 수 있다.
+- `infix`: 확장 메소드의 매개변수가 하나인 경우에만 사용할 수 있다.
+    - `object.method(value)`에서 아래와 같이 축약할 수 있다.
+    - `object method value`
+- `property`명이 겹치는 경우 기존에 정의한 값이 우선순위가 높다.
+
+```kotlin
+fun Int.increase(): Int = this + 1
+
+infix fun Int.sum(value: Int): Int = this + value
+
+var intValue1 = 10.increase()   // return 11
+var intValue2 = 10 sum 5        // return 15
+```
+
+
+<a name="this"></a>
+### This
+- `this`: 호출된 시점 혹은 위치에 따라 this가 가르키는 객체가 달라질 수 있다.
+- `메소드 내부`: 메소드를 가지고 있는 클래스의 인스턴스.
+- `익명 클래스(인터페이스) 내부`: 익명 클래스의 인스턴스.
+- `이너 클래스`: 이너 클래스의 인스턴스.
+- `람다식 내부`: 람다식이 호출된 클래스의 인스턴스.
+- [higher order function](#higher-order-function): 람다식이 호출된 클래스의 인스턴스. 
+
+```kotlin
+class ExampleA {
+
+    val mSampleB: SampleB by lazy {
+        SampleB()
+    }
+
+    inner class ExampleB {
+    
+        fun test(a: String) {
+            println("d.hashcode = ${this.hashCode()}")
+            
+            a.foo()
+        }
+
+        fun Int.foo() {
+            println("e.hashcode = ${this.hashCode()}")
+        }
+        
+    }
+
+    fun test() {
+        println("a.hashcode = ${this.hashCode()}")
+        
+        val mutableList: MutableList<Int> = mutableListOf(1)
+            mutableList.forEach {
+            println("b.hashcode = ${this.hashCode()}")
+        }
+    
+        object: Interface {
+            override fun onStart() {
+                println("c.hashcode = ${this.hashCode()}")
+            }
+        }.onStart()
+
+        mSampleB.test("string")
+    }
+    
+    interface Interface {
+        fun onStart()
+    }
+        
+}
+
+val ExampleA: exampleA = ExampleA()
+exampleA.test()
+
+/**
+    a.hashcode = 91062265       // @ExampleA
+    b.hashcode = 91062265       // @ExampleA
+    c.hashcode = 75874921       // Anonymous Class
+    d.hashcode = 255746728      // @ExampleB
+    e.hashcode = -891985903     // String Extension
+**/
+```
+
+
+<a name="expression"></a>
+### Expression
+- `{name}@` 같이 명시할 수 있다.
+    - 예) 내부 for문에서 외부 for문을 `break@outer-for`
+- 클래스명, 함수명 등 직접 정의하지 않아도 `@{class-name}`으로 사용할 수 있다.
+    - 예) 내부 클래스에서 `this@OuterClass`로 외부 클래스로 접근.
+
+#### 1. **For문**에서 사용하는 경우
+> ```
+> loopI@ for (i in 1..10) {
+>     loopJ@ for (j in 1..100) {
+>         if (j == 10) {
+>             println()
+>             break@loopI
+>                // loopI에 해당하는 for문이 종료된다.
+>         }
+>         print("$j ")
+>     }
+> }
+> ```
+
+#### 2. **Class**(this)에서 사용하는 경우
+> ```
+> class ExampleA {
+> 
+>     val mSampleB: SampleB by lazy {
+>         SampleB()
+>     }
+> 
+>     inner class ExampleB {
+>     
+>         fun test() {
+>             val a = this@ExampleA
+>             val b = this@ExampleB
+>                         
+>             println("a.hashcode = ${a.hashCode()}")
+>             println("b.hashcode = ${b.hashCode()}")
+>         }
+>     }
+> 
+>     fun test() {
+>         mSampleB.test()
+>     }
+>     
+> }
+> 
+> val ExampleA: exampleA = ExampleA()
+> exampleA.test()
+> ```
+
+<a name="lambda"></a>
+### Lambda
+- `{ param1, param2 -> ... }`: Kotlin의 람다식이다.
+- `it`: 람다식의 파라미터가 `한개`인 경우 매개변수 정의를 `생략`하고 사용할 수 있다.
+- 블록의 마지막 줄은 `return`이다.
+
+```kotlin
+val list: MutableList<Int> = 
+        mutableListOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+list.filter {
+    it % 2 == 0;
+
+}.map {
+    it * 10;
+
+}.forEachIndexed { index, value ->
+    println("index = $index // value = $value");
+}
+```
+
+<a name="higher-order-function"></a>
+### Higher-Order-Function
+- Kotlin의 메소드는 `1급 객체`이다.
+- 따라서 함수를 인자로 `전달`하거나 `리턴`할 수 있다.
+- 변수에도 `저장`할 수 있다.
+- 매개변수로 함수가 하나 필요한 경우 소괄호`()`를 `생략`할 수 있다.
+- `Lambda`로 `축약`해서 사용할 수 있다.
+
+#### 1. 변수에 저장하는 경우
+> ```
+> // 기본형
+> val toString: (Int) -> String = fun(int: Int): String {
+>     return int.toString()
+> }
+> 
+> // 축약형
+> val toInt: (String) -> Int = {
+>     it.toInt()
+> }
+> ```
+
+#### 2. 함수 **1개**를 메소드 인자로 받는 경우
+> ```
+> fun method(function: () -> Unit) {
+>     function()
+> }
+> 
+> method { 
+>     ...
+> }
+> ```
+
+
+#### 3. 함수 **2개**를 메소드 인자로 받는 경우
+> ```
+> fun method(functionA: () -> Unit, functionB: () -> Unit) {
+>     functionA()
+>     functionB()
+> }
+> 
+> method ({
+>     // functionA ...
+>     
+> }, {
+>     // functionB ...
+> })
+> ```
+   
+
+<a name="standard-library"></a>
+### Standard Library
+
+<a name="sam"></a>
+### Single Abstract Method (SAM)
+
 
 
 
