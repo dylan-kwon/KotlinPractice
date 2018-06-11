@@ -696,7 +696,7 @@ exampleA.test()
     - 예) 내부 클래스에서 `this@OuterClass`로 외부 클래스로 접근.
 
 #### 1. **For문**에서 사용하는 경우
-> ```
+> ```kotlin
 > loopI@ for (i in 1..10) {
 >     loopJ@ for (j in 1..100) {
 >         if (j == 10) {
@@ -710,7 +710,7 @@ exampleA.test()
 > ```
 
 #### 2. **Class**(this)에서 사용하는 경우
-> ```
+> ```kotlin
 > class ExampleA {
 > 
 >     val mSampleB: SampleB by lazy {
@@ -768,7 +768,7 @@ list.filter {
 - `Lambda`로 `축약`해서 사용할 수 있다.
 
 #### 1. 변수에 저장하는 경우
-> ```
+> ```kotlin
 > // 기본형
 > val toString: (Int) -> String = fun(int: Int): String {
 >     return int.toString()
@@ -781,7 +781,7 @@ list.filter {
 > ```
 
 #### 2. 함수 **1개**를 메소드 인자로 받는 경우
-> ```
+> ```kotlin
 > fun method(function: () -> Unit) {
 >     function()
 > }
@@ -793,7 +793,7 @@ list.filter {
 
 
 #### 3. 함수 **2개**를 메소드 인자로 받는 경우
-> ```
+> ```kotlin
 > fun method(functionA: () -> Unit, functionB: () -> Unit) {
 >     functionA()
 >     functionB()
