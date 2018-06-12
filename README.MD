@@ -282,7 +282,7 @@ println(s1 is String)   // true
     - `변수명.keys`를 통해 키를 하나씩 꺼내면서 순회한다.
     - `변수명.values`를 통해 값을 하나씩 꺼내면서 순회한다.
 
-#### 1. 기본
+#### 1. **기본**
 ```kotlin
 for (i in 0..10) {
     ...
@@ -294,9 +294,9 @@ for (i in 0..10 step 2) {
 ```
 
 
-#### 2. Array
+#### 2. **Array**
 
-##### - `Item`을 하나씩 꺼내는 방법.
+- `Item`을 하나씩 꺼내는 방법.
 ```kotlin
 val array: Array<Int> = arrayOf(1, 2, 3);
 
@@ -305,7 +305,7 @@ for (item in array) {
 }
 ```
 
-##### - `Index`를 하나씩 꺼내는 방법.
+- `Index`를 하나씩 꺼내는 방법.
 ```kotlin
 val array: Array<Int> = arrayOf(1, 2, 3);
 
@@ -314,7 +314,7 @@ for (index in array.indices) {
 }
 ```
 
-##### - `Index`와 `Item`을 동시에 하나씩 꺼내는 방법.
+- `Index`와 `Item`을 동시에 하나씩 꺼내는 방법.
 ```kotlin
 val array: Array<Int> = arrayOf(1, 2, 3);
 
@@ -324,9 +324,9 @@ for ((index, item) in array.withIndex()) {
 ```
 
 
-#### 2. Map
+#### 2. **Map**
 
-#### - `item`을 하나씩 꺼내는 방법. 
+- `item`을 하나씩 꺼내는 방법. 
 ```kotlin
 val map: MutableMap<Int, String> = mutableMapOf(
         1 to "first",
@@ -345,7 +345,7 @@ for ((key, value) in map) {
 }
 ```
 
-#### - `key`를 하나씩 꺼내는 방법.
+- `key`를 하나씩 꺼내는 방법.
 ```kotlin
 val map: MutableMap<Int, String> = mutableMapOf(
         1 to "first",
@@ -359,7 +359,7 @@ for (key in map.keys) {
 ```
 
 
-#### - `value`를 하나씩 꺼내는 방법.
+- `value`를 하나씩 꺼내는 방법.
 ```kotlin
 val map: MutableMap<Int, String> = mutableMapOf(
         1 to "first",
