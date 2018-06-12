@@ -34,7 +34,8 @@
     13. [Expression](#expression)
     14. [Lambda](#lambda)
     15. [Higher Order Function](#higher-order-function)
-    16. Standard Library
+    16. [Single Abstract Method (SAM)](#sam)
+    17. Standard Library
         1. [let](#standard-library-let)
         2. [apply](#standard-library-apply)
         3. [run](#standard-library-run)
@@ -42,7 +43,6 @@
         5. [also](#standard-library-also)
         6. [takeIf](#standard-library-takeif)
         7. [takeUnless](#standard-library-takeunless)
-    17. [Single Abstract Method (SAM)](#sam)
     
 
 <a name="syntax"></a>
@@ -271,63 +271,107 @@ println(s1 is String)   // true
  
 <a name="for"></a>
 ### for
-- **index** `(String, array 등)`
-    - 기본적으로 아이템을 인덱스 순서대로 하나씩 꺼내면서 순회한다.
+- **array** `(String, array 등)`
+    - 아이템을 인덱스 순서대로 하나씩 꺼내면서 순회한다.
     - `변수명.indices`로 인덱스에 접근할 수 있다.
     - `변수명.withIndex()`로 인덱스와 값에 동시에 접근할 수 있다.
 - **map**
-    - 기본적으로 map의 아이템을 하나씩 꺼내면서 순회한다.
-        - `e.key`:로 키에 접근할 수 있다.
-        - `e.value`:로 값에 접근할 수 있다.
+    - map의 아이템을 하나씩 꺼내면서 순회한다.
+        - `item.key`:로 키에 접근할 수 있다.
+        - `item.value`:로 값에 접근할 수 있다.
     - `변수명.keys`를 통해 키를 하나씩 꺼내면서 순회한다.
     - `변수명.values`를 통해 값을 하나씩 꺼내면서 순회한다.
 
-```kotlin
-// Int Range.
-for (i in 0..10 step 2) {
-    ...
-}
+#### 1. 기본
+> ```kotlin
+> for (i in 0..10) {
+>     ...
+> }
+> 
+> for (i in 0..10 step 2) {
+>     ...
+> }
+> ```
 
 
-// String (array와 사용법이 같다.)
-for (s in "string") {
-    ...
-}
+#### 2. Array
 
-for (i in strValue.indices) {
-    ...
-}
+> ##### - **`Item`**을 하나씩 꺼내는 방법.
+> ```kotlin
+> val array: Array<Int> = arrayOf(1, 2, 3);
+> 
+> for (item in array) {
+>     ...
+> }
+> ```
 
-for ((i, s) in strValue.withIndex()) {
-    ...
-}
+> ##### - **`Index`**를 하나씩 꺼내는 방법.
+> ```kotlin
+> val array: Array<Int> = arrayOf(1, 2, 3);
+> 
+> for (index in array.indices) {
+>     ...
+> }
+> ```
+
+> ##### - **`Index`**와 **`Item`**을 동시에 하나씩 꺼내는 방법.
+> ```kotlin
+> val array: Array<Int> = arrayOf(1, 2, 3);
+> 
+> for ((index, item) in array.withIndex()) {
+>     ...
+> }
+> ```
 
 
-// Map.
-val map: MutableMap<Int, String> = mutableMapOf(
-        1 to "first",
-        2 to "second",
-        3 to "third"
-)
+#### 2. Map
 
-for (key in map.keys) {
-    ...
-}
+> #### - **`item`**을 하나씩 꺼내는 방법. 
+> ```kotlin
+> val map: MutableMap<Int, String> = mutableMapOf(
+>         1 to "first",
+>         2 to "second",
+>         3 to "third"
+> )
+> 
+> for (item in map) {
+>     item.key
+>     item.value
+>     ...
+> }
+> 
+> for ((key, value) in map) {
+>     ...
+> }
+> ```
 
-for (value in map.values) {
-    ...
-}
+> #### - **`key`**를 하나씩 꺼내는 방법.
+> ```kotlin
+> val map: MutableMap<Int, String> = mutableMapOf(
+>         1 to "first",
+>         2 to "second",
+>         3 to "third"
+> )
+> 
+> for (key in map.keys) {
+>     ...
+> }
+> ```
 
-for (item in map) {
-    item.key
-    item.value
-    ...
-}
 
-for ((key, value) in map) {
-    ...
-}
-```
+> #### - **`value`**를 하나씩 꺼내는 방법.
+> ```kotlin
+> val map: MutableMap<Int, String> = mutableMapOf(
+>         1 to "first",
+>         2 to "second",
+>         3 to "third"
+> )
+> 
+> for (value in map.values) {
+>     ...
+> }
+> ```
+
 
 <a name="while"></a>
 ### While
@@ -815,6 +859,24 @@ list.filter {
 > ```
    
 
+<a name="sam"></a>
+### Single Abstract Method (SAM)
+- `Java`에서 `하나`의 메소드를 가지는 `Interface` 혹은 `abstract class`와 그 `setter`를 정의해야 함.
+    - 예를들면 `Android`의 `View.OnClickListener`와 `view.setOnClickListener(l);`
+- 원래 `view.setOnClickListener(object: View.OnClickListener { .. })` 와 같이 선언해야 하는것을 `축약`할 수 있다.
+    - `view.setOnClickListener { ... }`
+
+```kotlin
+val button: Button by lazy {
+    findViewById(R.id.button)
+}
+
+button.setOnClickListener {
+    ...
+}
+```
+
+
 ### Standard Library
 
 <a name="standard-library-let"></a>
@@ -915,8 +977,8 @@ list.filter {
 #### 4. with
 > - 이미 생성한 객체에 대하여 재 접근시 주로 사용한다.
 > - 블록 내에서 `this`를 사용하여 객체에 접근할 수 있다.
-> - `run`과 용도가 거의 비슷해 보인다.
 > - 블록의 마지막 줄이 리턴된다.
+> - `run`과 용도가 거의 비슷해 보인다.
 
 > ```kotlin
 > public inline fun <T, R> with(receiver: T, block: T.() -> R): R {
@@ -944,22 +1006,93 @@ list.filter {
 
 <a name="standard-library-also"></a>
 #### 5. also
+> - 블록 내에서 `it`를 사용하여 객체에 접근할 수 있다.
+> - 접근한 객체 자신이 리턴된다.
+> - `apply`와 비슷하다.
+>   - `also`: 블록이 `lambda`식이기 때문에 `it`으로 객체에 접근한다.
+>   - `apply`: 블록이 `extension function`이기 때문에 `this`로 접근한다.
+
+> ```kotlin
+> public inline fun <T> T.also(block: (T) -> Unit): T {
+>     contract {
+>         callsInPlace(block, InvocationKind.EXACTLY_ONCE)
+>     }
+>     block(this)
+>     return this
+> }
+> ```
+
+> ```kotlin
+> fun User.copy() = User().also {
+>     it.age = this.age;
+>     it.name = this.name;
+>     it.email = this.email;
+> }
+> 
+> val userCopy: User = user.copy();
+> ```
+
+
 
 <a name="standard-library-takeif"></a>
 #### 6. takeIf
+> - 블록 내에서 `it`를 사용하여 객체에 접근할 수 있다.
+> - 블록의 마지막 줄에서 `Boolean`을 리턴한다.
+> - 리턴된 값이 `true`인 경우 `접근한 객체`가 리턴되고, `false`인 경우 `null`이 리턴된다.
+
+> ```kotlin
+> public inline fun <T> T.takeIf(predicate: (T) -> Boolean): T? {
+>     contract {
+>         callsInPlace(predicate, InvocationKind.EXACTLY_ONCE)
+>     }
+>     return if (predicate(this)) this else null
+> }
+> ```
+
+> ```kotlin
+> class User(
+>         var age: Int = 0
+>         var name: String = ""
+>         var email: String = ""
+> );
+> 
+> val user: User? = User().takeIf { 
+>     it.age > 0
+> }
+>
+> if (user == null) // true
+> ```
+
 
 <a name="standard-library-takeunless"></a>
 #### 7. takeUnless
+> - 블록 내에서 `it`를 사용하여 객체에 접근할 수 있다.
+> - 블록의 마지막 줄에서 `Boolean`을 리턴한다.
+> - 리턴된 값이 `false`인 경우 `접근한 객체`가 리턴되고, `true`인 경우 `null`이 리턴된다.
+> - `takeIf`와 반대다.
 
+> ```kotlin
+> public inline fun <T> T.takeUnless(predicate: (T) -> Boolean): T? {
+>     contract {
+>         callsInPlace(predicate, InvocationKind.EXACTLY_ONCE)
+>     }
+>     return if (!predicate(this)) this else null
+> }
+> ```
 
-
-<a name="sam"></a>
-### Single Abstract Method (SAM)
-
-
-
-
-
+> ```kotlin
+> class User(
+>         var age: Int = 0
+>         var name: String = ""
+>         var email: String = ""
+> );
+> 
+> val user: User? = User().takeIf { 
+>     it.age > 0
+> }
+>
+> if (user == null) // false
+> ```
 
 
 
