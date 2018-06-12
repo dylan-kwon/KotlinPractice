@@ -11,31 +11,36 @@
         4. [Null](#variable-null)
         5. [초기화](#variable-init)
         6. [Getter/Setter](variable-getter-setter)
-    3. 조건문
-        1. [If-Else](#if-else)
-        2. [When](#when)
-    4. 반복문
+    3. 자료구조
+        1. [Array](#array)
+        2. [Map](#map)
+        3. [Set](#set)
+    4. 조건문
+        1. [비교](#compare)
+        2. [If-Else](#if-else)
+        3. [When](#when)
+    5. 반복문
         1. [For](#for)
         2. [While](#while)
-    5. [Try-Catch](#try-catch)        
-    6. [Method](#method)
-    7. Class
+    6. [Try-Catch](#try-catch)        
+    7. [Method](#method)
+    8. Class
         1. [Class](#class)
         2. [Inner Class](#inner-class)
         3. [Object](#object)
         4. [Companion-Object](#companion-object)
         5. [Data Class](#data-class)
         6. [Abstract Class](#abstract-class)
-    8. [Interface](#interface)
-    9. [Generic](#generic)
-    10. [Elvis](#elvis)
-    11. [Extension](#extension)
-    12. [This](#this)
-    13. [Expression](#expression)
-    14. [Lambda](#lambda)
-    15. [Higher Order Function](#higher-order-function)
-    16. [Single Abstract Method (SAM)](#sam)
-    17. Standard Library
+    9. [Interface](#interface)
+    10. [Generic](#generic)
+    11. [Elvis](#elvis)
+    12. [Extension](#extension)
+    13. [This](#this)
+    14. [Expression](#expression)
+    15. [Lambda](#lambda)
+    16. [Higher Order Function](#higher-order-function)
+    17. [Single Abstract Method (SAM)](#sam)
+    18. Standard Library
         1. [let](#standard-library-let)
         2. [apply](#standard-library-apply)
         3. [run](#standard-library-run)
@@ -43,6 +48,7 @@
         5. [also](#standard-library-also)
         6. [takeIf](#standard-library-takeif)
         7. [takeUnless](#standard-library-takeunless)
+2. [Reference](#reference)
     
 
 <a name="syntax"></a>
@@ -188,6 +194,180 @@ println(example.value)  // 실제 값은 10이지만 get()을 통해 100배한 �
 ```
 
 
+### 자료구조
+
+<a name="array"></a>
+#### 1. Array, List
+- 순서`(Index)`가 있는 자료구조.
+- `.get(index)` 혹은 `[index]`로 접근할 수 있다.
+- `.set(index, value)` 혹은 `[index] = value`로 변경할 수 있다.
+- 정적 배열`(Array)`과, 동적 배열`(List)`이 있다.
+- 동적 배열은 읽기 전용`(read only)`과 읽기, 쓰기`(mutable)` 모두 가능한 객체로 나누어 제공된다.
+
+##### 1. Array
+- 배열의 `size`가 고정적이다.
+- 따라서 아이템의 추가, 삭제가 불가능하다.
+- 해당 인덱스의 아이템에 접근해서 값을 가져오거나 변경할 수는 있다.
+- 기본적인 생성 방법은 `arrayOf<T>( ... )`이다.
+- `Primitive Type` 배열 생성자를 제공한다.
+    - `intArrayOf( ... )` 
+    - `charArrayOf( ... )` 
+    - `BooleanArrayOf( ... )`
+    - 기타 등등 
+
+```kotlin
+// 정적 배열 생성
+val staticArray: Array<Int> = arrayOf(0, 1, 2)
+
+// 아이템 접근
+staticArray[0]
+staticArray.get(0)
+
+// 아이템 변경
+staticArray[1] = 10
+staticArray.set(1, 10)
+
+// 배열의 사이즈 가져오기
+staticArray.size
+```
+
+<a name="list"></a>
+##### 2. Read Only List
+- 아이템에 접근만 가능한 배열이다.
+- 배열 초기화 이후 아이템의 추가, 삭제가 불가능하다.
+    
+```kotlin
+// 읽기 전용 배열 생성
+val readOnlyList: List<Int> = listOf(0, 1, 2);
+
+// 아이템 접근
+readOnlyList[0]
+readOnlyList.get(0)
+
+// 배열의 사이즈 가져오기
+readOnlyList.size
+```
+
+##### 3. Mutable List
+- 배열의 `size`가 동적이다.
+- `Mutable Collection`은 `+`, `-` 연산자로 추가, 삭제가 가능하다.
+    - `List`의 경우 우항에 `item`이 들어간다.
+- 따라서 아이템의 `CRUD`가 가능하다.
+    
+```kotlin
+// 읽기, 쓰기 전용 배열 생성
+val mutableList: MutableList<Int> = mutableListOf(0, 1, 2);
+
+// 아이템 접근
+mutableList[0]
+mutableList.get(0)
+
+// 아이템 변경
+mutableList[1] = 20
+mutableList.set(1, 20)
+
+// 아이템 추가
+mutableList += 100
+mutableList.add(100)
+
+// 아이템 삭제
+mutableList -= 100
+mutableList.remove(100)
+
+// 배열의 사이즈 가져오기
+mutableList.size
+```
+
+<a name="map"></a>
+#### 2. Map
+- `key`와 `value`로 구성된 자료구조다.
+- 순서가 정해져 있지 않다.
+- `.get(key)` 또는 `[key]`로 접근할 수 있다.
+- `.keys`로 `Set<KEY>`를 가져올 수 있다.
+- `.values`로 `Set<VALUE>`를 가져올 수 있다.
+- `.size`로 Map의 `size`를 가져올 수 있다.
+- 특정 `key`에 접근시 등록된 값이 없을때 `default value`로 [Elvis](#elvis)나 제공되는 `method`를 사용하면 된다.
+    - `getOrDefault(key, defaultValue)`: 기본값에 해당하는 매개변수 타입이 `<VALUE>`다.
+    - `getOrElse(key, defaltValue)`: 기본값에 해당하는 매개변수 타입이 `<VALUE>`를 리턴하는 [함수](#higher-order-function)다
+- `List`와 같이 `Read Only`와 `Mutable` 객체가 각각 제공된다.
+
+##### 1. Read Only Map
+- `Item`의 추가나 삭제 없이 접근만 가능한 `Map`이다.
+
+```kotlin
+// 읽기 전용 맵 생성
+val readOnlyMap: Map<String, Int> = mapOf(
+        "first" to 1,
+        "second" to 2,
+        "third" to 3
+);
+
+// 키 값에 해당하는 객체에 접근
+readOnlyMap["first"]
+readOnlyMap.get("two")
+
+
+// 키 값에 해당하는 객체가 없을 경우 사용할 기본값을 설정
+readOnlyMap["four"] ?: 10
+
+readOnlyMap.getOrElse("five", {
+    ...
+    10
+})
+
+readOnlyMap.getOrDefault("six", 10)
+```
+
+
+##### 2. Mutable Map
+- `Item`의 추가나 삭제가 가능한 `Map`이다.
+- `Mutable`한 `Collection`은 `+`, `-`로 아이템을 변경할 수 있다.
+    - `Map`의 경우 우항에 `Key`값이 들어간다.
+
+```kotlin
+// 읽기, 쓰기 전용 맵 생성
+val mutableMap: MutableMap<String, Int> = mutableMapOf(
+        "first" to 1,
+        "second" to 2,
+        "third" to 3
+);
+
+// 키 값에 해당하는 객체에 접근
+mutableMap["first"]
+mutableMap.get("two")
+
+
+// 키 값에 해당하는 아이템 추가 및 변경
+mutableMap += "key" to 100
+mutableMap["key"] = 100
+mutableMap.put("key", 100)
+
+
+// 키 값에 해당하는 아이템 삭제
+mutableMap -= key
+mutableMap.remove("key")
+
+
+// 키 값에 해당하는 객체가 없을 경우 사용할 기본값을 설정
+mutableMap["four"] ?: 10
+
+mutableMap.getOrElse("five", {
+    ...
+    10
+})
+
+mutableMap.getOrDefault("six", 10)
+```
+
+
+<a name="set"></a>
+#### 3. Set
+- `List`와 비슷하지만 아래와 같은 차이점이 있다.
+    - 순서가 없다.
+    - 중복을 허용하지 않는다.
+- `List`와 같이 `Read Only`와 `Mutable` 객체가 각각 제공된다.
+- 사용법은 [List](#list)와 비슷하므로 생략.
+
 
 <a name="compare"></a>
 ### 비교
@@ -196,7 +376,7 @@ println(example.value)  // 실제 값은 10이지만 get()을 통해 100배한 �
 - `is`: 객체 타입을 비교한다.
 - `in`: 해당 값이 범위에 포함되었는지 비교한다.
 
-```kotlin
+```kotlin 
 var i = 10
 var s1 = "string"
 var s2 = "string"
@@ -410,7 +590,7 @@ try {
 - `일급 객체`이므로 변수에 할당할 수 있다.
 - `override` 키워드를 통해 확장할 수 있다.
 
-```
+```kotlin
 // 기본형
 fun getInt(): Int {
     return 10
@@ -1099,8 +1279,10 @@ with(button) {
  ```
 
 
-
-
+<a name="reference"></a>
+### Reference
+- [https://kotlinlang.org/docs/reference](https://kotlinlang.org/docs/reference)
+- [https://thdev.tech/tags/#Kotlin](https://thdev.tech/tags/#Kotlin)
 
 
 
