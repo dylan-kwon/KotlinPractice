@@ -283,94 +283,94 @@ println(s1 is String)   // true
     - `변수명.values`를 통해 값을 하나씩 꺼내면서 순회한다.
 
 #### 1. 기본
-> ```kotlin
-> for (i in 0..10) {
->     ...
-> }
-> 
-> for (i in 0..10 step 2) {
->     ...
-> }
-> ```
+```kotlin
+for (i in 0..10) {
+    ...
+ }
+
+for (i in 0..10 step 2) {
+    ...
+}
+```
 
 
 #### 2. Array
 
-> ##### - **`Item`**을 하나씩 꺼내는 방법.
-> ```kotlin
-> val array: Array<Int> = arrayOf(1, 2, 3);
-> 
-> for (item in array) {
->     ...
-> }
-> ```
+##### - `Item`을 하나씩 꺼내는 방법.
+```kotlin
+val array: Array<Int> = arrayOf(1, 2, 3);
 
-> ##### - **`Index`**를 하나씩 꺼내는 방법.
-> ```kotlin
-> val array: Array<Int> = arrayOf(1, 2, 3);
-> 
-> for (index in array.indices) {
->     ...
-> }
-> ```
+for (item in array) {
+    ...
+}
+```
 
-> ##### - **`Index`**와 **`Item`**을 동시에 하나씩 꺼내는 방법.
-> ```kotlin
-> val array: Array<Int> = arrayOf(1, 2, 3);
-> 
-> for ((index, item) in array.withIndex()) {
->     ...
-> }
-> ```
+##### - `Index`를 하나씩 꺼내는 방법.
+```kotlin
+val array: Array<Int> = arrayOf(1, 2, 3);
+
+for (index in array.indices) {
+    ...
+}
+```
+
+##### - `Index`와 `Item`을 동시에 하나씩 꺼내는 방법.
+```kotlin
+val array: Array<Int> = arrayOf(1, 2, 3);
+
+for ((index, item) in array.withIndex()) {
+    ...
+}
+```
 
 
 #### 2. Map
 
-> #### - **`item`**을 하나씩 꺼내는 방법. 
-> ```kotlin
-> val map: MutableMap<Int, String> = mutableMapOf(
->         1 to "first",
->         2 to "second",
->         3 to "third"
-> )
-> 
-> for (item in map) {
->     item.key
->     item.value
->     ...
-> }
-> 
-> for ((key, value) in map) {
->     ...
-> }
-> ```
+#### - `item`을 하나씩 꺼내는 방법. 
+```kotlin
+val map: MutableMap<Int, String> = mutableMapOf(
+        1 to "first",
+        2 to "second",
+        3 to "third"
+)
 
-> #### - **`key`**를 하나씩 꺼내는 방법.
-> ```kotlin
-> val map: MutableMap<Int, String> = mutableMapOf(
->         1 to "first",
->         2 to "second",
->         3 to "third"
-> )
-> 
-> for (key in map.keys) {
->     ...
-> }
-> ```
+for (item in map) {
+    item.key
+    item.value
+    ...
+}
+
+for ((key, value) in map) {
+    ...
+}
+```
+
+#### - `key`를 하나씩 꺼내는 방법.
+```kotlin
+val map: MutableMap<Int, String> = mutableMapOf(
+        1 to "first",
+        2 to "second",
+        3 to "third"
+)
+
+for (key in map.keys) {
+    ...
+}
+```
 
 
-> #### - **`value`**를 하나씩 꺼내는 방법.
-> ```kotlin
-> val map: MutableMap<Int, String> = mutableMapOf(
->         1 to "first",
->         2 to "second",
->         3 to "third"
-> )
-> 
-> for (value in map.values) {
->     ...
-> }
-> ```
+#### - `value`를 하나씩 꺼내는 방법.
+```kotlin
+val map: MutableMap<Int, String> = mutableMapOf(
+        1 to "first",
+        2 to "second",
+        3 to "third"
+)
+
+for (value in map.values) {
+    ...
+}
+```
 
 
 <a name="while"></a>
@@ -410,19 +410,23 @@ try {
 - `일급 객체`이므로 변수에 할당할 수 있다.
 - `override` 키워드를 통해 확장할 수 있다.
 
-```kotlin
+```
+// 기본형
 fun getInt(): Int {
     return 10
 }
 
-plus(b = 10) // return = 20
-fun plus(a: Int = 10, b: Int = 20) = a + b
 
+// 축약형
 fun getString(): String = "return String"
 
-val functionValue: (Int, String) -> String = { int, str ->
-    str + int.toString()
-}
+
+// 기본값 설정
+fun plus(a: Int = 10, b: Int = 20) = a + b
+
+
+// 매개변수 순서에 관계 없이 이름으로 직접 지정하기
+plus(b = 10) // return = 20
 ```
 
 
@@ -747,47 +751,47 @@ exampleA.test()
     - 예) 내부 클래스에서 `this@OuterClass`로 외부 클래스로 접근.
 
 #### 1. **For문**에서 사용하는 경우
-> ```kotlin
-> loopI@ for (i in 1..10) {
->     loopJ@ for (j in 1..100) {
->         if (j == 10) {
->             println()
->             break@loopI
->                // loopI에 해당하는 for문이 종료된다.
->         }
->         print("$j ")
->     }
-> }
-> ```
+```kotlin
+loopI@ for (i in 1..10) {
+    loopJ@ for (j in 1..100) {
+        if (j == 10) {
+            println()
+            break@loopI
+               // loopI에 해당하는 for문이 종료된다.
+        }
+        print("$j ")
+    }
+}
+```
 
 #### 2. **Class**(this)에서 사용하는 경우
-> ```kotlin
-> class ExampleA {
-> 
->     val mSampleB: SampleB by lazy {
->         SampleB()
->     }
-> 
->     inner class ExampleB {
->     
->         fun test() {
->             val a = this@ExampleA
->             val b = this@ExampleB
->                         
->             println("a.hashcode = ${a.hashCode()}")
->             println("b.hashcode = ${b.hashCode()}")
->         }
->     }
-> 
->     fun test() {
->         mSampleB.test()
->     }
->     
-> }
-> 
-> val ExampleA: exampleA = ExampleA()
-> exampleA.test()
-> ```
+```kotlin
+class ExampleA {
+
+    val mSampleB: SampleB by lazy {
+        SampleB()
+    }
+
+    inner class ExampleB {
+    
+        fun test() {
+            val a = this@ExampleA
+            val b = this@ExampleB
+                        
+            println("a.hashcode = ${a.hashCode()}")
+            println("b.hashcode = ${b.hashCode()}")
+        }
+    }
+
+    fun test() {
+        mSampleB.test()
+    }
+    
+}
+
+val ExampleA: exampleA = ExampleA()
+exampleA.test()
+```
 
 <a name="lambda"></a>
 ### Lambda
@@ -819,44 +823,44 @@ list.filter {
 - `Lambda`로 `축약`해서 사용할 수 있다.
 
 #### 1. 변수에 저장하는 경우
-> ```kotlin
-> // 기본형
-> val toString: (Int) -> String = fun(int: Int): String {
->     return int.toString()
-> }
-> 
-> // 축약형
-> val toInt: (String) -> Int = {
->     it.toInt()
-> }
-> ```
+```kotlin
+// 기본형
+val toString: (Int) -> String = fun(int: Int): String {
+    return int.toString()
+}
+
+// 축약형
+val toInt: (String) -> Int = {
+    it.toInt()
+}
+```
 
 #### 2. 함수 **1개**를 메소드 인자로 받는 경우
-> ```kotlin
-> fun method(function: () -> Unit) {
->     function()
-> }
-> 
-> method { 
->     ...
-> }
-> ```
+```kotlin
+fun method(function: () -> Unit) {
+    function()
+}
+
+method { 
+    ...
+}
+```
 
 
 #### 3. 함수 **2개**를 메소드 인자로 받는 경우
-> ```kotlin
-> fun method(functionA: () -> Unit, functionB: () -> Unit) {
->     functionA()
->     functionB()
-> }
-> 
-> method ({
->     // functionA ...
->     
-> }, {
->     // functionB ...
-> })
-> ```
+```kotlin
+fun method(functionA: () -> Unit, functionB: () -> Unit) {
+    functionA()
+    functionB()
+}
+
+method ({
+    // functionA ...
+    
+}, {
+    // functionB ...
+})
+```
    
 
 <a name="sam"></a>
@@ -881,218 +885,218 @@ button.setOnClickListener {
 
 <a name="standard-library-let"></a>
 #### 1. let
-> - 주로 객체의 `null`체크를 할때 사용한다.
-> - 블록 내에서 `it`를 사용하여 객체에 접근할 수 있다.
-> - 블록의 마지막 줄이 리턴된다.
-> - `run`과 큰 차이가 없다.
->   - `let`의 경우 블록이 접근한 객체를 매개변수로 같는 `lambda`식이기 때문에 `it`으로 접근한다.
->   - `run`의 경우 블록이 접근한 객체를 확장한 `extension`한 것으로 `this`로 접근한다. 
+- 주로 객체의 `null`체크를 할때 사용한다.
+- 블록 내에서 `it`를 사용하여 객체에 접근할 수 있다.
+- 블록의 마지막 줄이 리턴된다.
+- `run`과 큰 차이가 없다.
+  - `let`의 경우 블록이 접근한 객체를 매개변수로 같는 `lambda`식이기 때문에 `it`으로 접근한다.
+  - `run`의 경우 블록이 접근한 객체를 확장한 `extension`한 것으로 `this`로 접근한다. 
 
-> ```kotlin
-> public inline fun <T, R> T.let(block: (T) -> R): R {
->     contract {
->         callsInPlace(block, InvocationKind.EXACTLY_ONCE)
->     }
->     return block(this)
-> }
-> ```
+```kotlin
+public inline fun <T, R> T.let(block: (T) -> R): R {
+    contract {
+        callsInPlace(block, InvocationKind.EXACTLY_ONCE)
+    }
+    return block(this)
+}
+```
   
-> ```kotlin
-> val name: String? = null;
-> 
-> name?.let {
->     ...
-> 
-> } ?: let {
->     ...
-> }
-> ```
+```kotlin
+val name: String? = null;
+
+name?.let {
+    ...
+
+} ?: let {
+    ...
+}
+```
 
 
 <a name="standard-library-apply"></a>
 #### 2. apply
-> - 객체의 생성과 동시에 값을 초기화할 때 유용하다.
-> - `Builder` 패턴같은 느낌으로 사용.
-> - 블록 내에서 `this`를 사용하여 객체에 접근할 수 있다.
-> - 접근한 객제 자신이 다시 리턴된다.
+- 객체의 생성과 동시에 값을 초기화할 때 유용하다.
+- `Builder` 패턴같은 느낌으로 사용.
+- 블록 내에서 `this`를 사용하여 객체에 접근할 수 있다.
+- 접근한 객제 자신이 다시 리턴된다.
 
-> ```kotlin
-> public inline fun <T> T.apply(block: T.() -> Unit): T {
->     contract {
->         callsInPlace(block, InvocationKind.EXACTLY_ONCE)
->     }
->     block()
->     return this
-> }
-> ```
+```kotlin
+public inline fun <T> T.apply(block: T.() -> Unit): T {
+    contract {
+        callsInPlace(block, InvocationKind.EXACTLY_ONCE)
+    }
+    block()
+    return this
+}
+```
 
-> ``` kotlin
-> class User(
->         var age: Int = 0,
->         var name: String = "",
->         var email: String = ""
-> );
-> 
-> val user: User = User().apply {
->     this.age = 21;
->     this.name = "seokchan.kwon";
->     this.email = "seokchan.kwon@gmail.com"
-> }
-> ```
+``` kotlin
+class User(
+        var age: Int = 0,
+        var name: String = "",
+        var email: String = ""
+);
+
+val user: User = User().apply {
+    this.age = 21;
+    this.name = "seokchan.kwon";
+    this.email = "seokchan.kwon@gmail.com"
+}
+```
 
 
 <a name="standard-library-run"></a>
 #### 3. run
-> - 이미 생성한 객체에 대하여 재 접근시 주로 사용한다.
-> - 블록 내에서 `this`를 사용하여 객체에 접근할 수 있다.
-> - 블록의 마지막 줄이 리턴된다.
-> - `let`과 큰 차이가 없다.
->   - `let`의 경우 블록이 접근한 객체를 매개변수로 같는 `lambda`식이기 때문에 `it`으로 접근한다.
->   - `run`의 경우 블록이 접근한 객체를 확장한 `extension`한 것으로 `this`로 접근한다. 
+- 이미 생성한 객체에 대하여 재 접근시 주로 사용한다.
+- 블록 내에서 `this`를 사용하여 객체에 접근할 수 있다.
+- 블록의 마지막 줄이 리턴된다.
+- `let`과 큰 차이가 없다.
+  - `let`의 경우 블록이 접근한 객체를 매개변수로 같는 `lambda`식이기 때문에 `it`으로 접근한다.
+  - `run`의 경우 블록이 접근한 객체를 확장한 `extension`한 것으로 `this`로 접근한다. 
 
-> ```kotlin
-> public inline fun <T, R> T.run(block: T.() -> R): R {
->     contract {
->         callsInPlace(block, InvocationKind.EXACTLY_ONCE)
->     }
->     return block()
-> }
-> ```
+```kotlin
+public inline fun <T, R> T.run(block: T.() -> R): R {
+    contract {
+        callsInPlace(block, InvocationKind.EXACTLY_ONCE)
+    }
+    return block()
+}
+```
 
-> ```kotlin
-> class User(
->         var age: Int = 0
->         var name: String = ""
->         var email: String = ""
-> );
-> 
-> val user: User = User()
-> 
-> user.run {
->     this.age = 23;
-> }
-> ```
+```kotlin
+class User(
+        var age: Int = 0
+        var name: String = ""
+        var email: String = ""
+);
+
+val user: User = User()
+
+user.run {
+    this.age = 23;
+}
+```
 
 <a name="standard-library-with"></a>
 #### 4. with
-> - 이미 생성한 객체에 대하여 재 접근시 주로 사용한다.
-> - 블록 내에서 `this`를 사용하여 객체에 접근할 수 있다.
-> - 블록의 마지막 줄이 리턴된다.
-> - `run`과 용도가 거의 비슷해 보인다.
+- 이미 생성한 객체에 대하여 재 접근시 주로 사용한다.
+- 블록 내에서 `this`를 사용하여 객체에 접근할 수 있다.
+- 블록의 마지막 줄이 리턴된다.
+- `run`과 용도가 거의 비슷해 보인다.
 
-> ```kotlin
-> public inline fun <T, R> with(receiver: T, block: T.() -> R): R {
->     contract {
->         callsInPlace(block, InvocationKind.EXACTLY_ONCE)
->     }
->     return receiver.block()
-> }
-> ```
+```kotlin
+public inline fun <T, R> with(receiver: T, block: T.() -> R): R {
+    contract {
+        callsInPlace(block, InvocationKind.EXACTLY_ONCE)
+    }
+    return receiver.block()
+}
+```
 
-> ```kotlin
-> class Button(
->         var text: String = "",
->         var textSize: Float = 12f,
->         var textColor: String = "#3dbff0"
-> );
-> 
-> val button: Button = Button()
-> 
-> with(button) {
->     this.textSize = 21f;
->     this.textColor = "#ffffff";
-> }
-> ```
+```kotlin
+class Button(
+        var text: String = "",
+        var textSize: Float = 12f,
+        var textColor: String = "#3dbff0"
+);
+
+val button: Button = Button()
+
+with(button) {
+    this.textSize = 21f;
+    this.textColor = "#ffffff";
+}
+```
 
 <a name="standard-library-also"></a>
 #### 5. also
-> - 블록 내에서 `it`를 사용하여 객체에 접근할 수 있다.
-> - 접근한 객체 자신이 리턴된다.
-> - `apply`와 비슷하다.
->   - `also`: 블록이 `lambda`식이기 때문에 `it`으로 객체에 접근한다.
->   - `apply`: 블록이 `extension function`이기 때문에 `this`로 접근한다.
+ - 블록 내에서 `it`를 사용하여 객체에 접근할 수 있다.
+ - 접근한 객체 자신이 리턴된다.
+ - `apply`와 비슷하다.
+   - `also`: 블록이 `lambda`식이기 때문에 `it`으로 객체에 접근한다.
+   - `apply`: 블록이 `extension function`이기 때문에 `this`로 접근한다.
 
-> ```kotlin
-> public inline fun <T> T.also(block: (T) -> Unit): T {
->     contract {
->         callsInPlace(block, InvocationKind.EXACTLY_ONCE)
->     }
->     block(this)
->     return this
-> }
-> ```
+ ```kotlin
+ public inline fun <T> T.also(block: (T) -> Unit): T {
+     contract {
+         callsInPlace(block, InvocationKind.EXACTLY_ONCE)
+     }
+     block(this)
+     return this
+ }
+ ```
 
-> ```kotlin
-> fun User.copy() = User().also {
->     it.age = this.age;
->     it.name = this.name;
->     it.email = this.email;
-> }
-> 
-> val userCopy: User = user.copy();
-> ```
+ ```kotlin
+ fun User.copy() = User().also {
+     it.age = this.age;
+     it.name = this.name;
+     it.email = this.email;
+ }
+ 
+ val userCopy: User = user.copy();
+ ```
 
 
 
 <a name="standard-library-takeif"></a>
 #### 6. takeIf
-> - 블록 내에서 `it`를 사용하여 객체에 접근할 수 있다.
-> - 블록의 마지막 줄에서 `Boolean`을 리턴한다.
-> - 리턴된 값이 `true`인 경우 `접근한 객체`가 리턴되고, `false`인 경우 `null`이 리턴된다.
+ - 블록 내에서 `it`를 사용하여 객체에 접근할 수 있다.
+ - 블록의 마지막 줄에서 `Boolean`을 리턴한다.
+ - 리턴된 값이 `true`인 경우 `접근한 객체`가 리턴되고, `false`인 경우 `null`이 리턴된다.
 
-> ```kotlin
-> public inline fun <T> T.takeIf(predicate: (T) -> Boolean): T? {
->     contract {
->         callsInPlace(predicate, InvocationKind.EXACTLY_ONCE)
->     }
->     return if (predicate(this)) this else null
-> }
-> ```
+ ```kotlin
+ public inline fun <T> T.takeIf(predicate: (T) -> Boolean): T? {
+     contract {
+         callsInPlace(predicate, InvocationKind.EXACTLY_ONCE)
+     }
+     return if (predicate(this)) this else null
+ }
+ ```
 
-> ```kotlin
-> class User(
->         var age: Int = 0
->         var name: String = ""
->         var email: String = ""
-> );
-> 
-> val user: User? = User().takeIf { 
->     it.age > 0
-> }
->
-> if (user == null) // true
-> ```
+ ```kotlin
+ class User(
+         var age: Int = 0
+         var name: String = ""
+         var email: String = ""
+ );
+ 
+ val user: User? = User().takeIf { 
+     it.age > 0
+ }
+
+ if (user == null) // true
+ ```
 
 
 <a name="standard-library-takeunless"></a>
 #### 7. takeUnless
-> - 블록 내에서 `it`를 사용하여 객체에 접근할 수 있다.
-> - 블록의 마지막 줄에서 `Boolean`을 리턴한다.
-> - 리턴된 값이 `false`인 경우 `접근한 객체`가 리턴되고, `true`인 경우 `null`이 리턴된다.
-> - `takeIf`와 반대다.
+ - 블록 내에서 `it`를 사용하여 객체에 접근할 수 있다.
+ - 블록의 마지막 줄에서 `Boolean`을 리턴한다.
+ - 리턴된 값이 `false`인 경우 `접근한 객체`가 리턴되고, `true`인 경우 `null`이 리턴된다.
+ - `takeIf`와 반대다.
 
-> ```kotlin
-> public inline fun <T> T.takeUnless(predicate: (T) -> Boolean): T? {
->     contract {
->         callsInPlace(predicate, InvocationKind.EXACTLY_ONCE)
->     }
->     return if (!predicate(this)) this else null
-> }
-> ```
+ ```kotlin
+ public inline fun <T> T.takeUnless(predicate: (T) -> Boolean): T? {
+     contract {
+         callsInPlace(predicate, InvocationKind.EXACTLY_ONCE)
+     }
+     return if (!predicate(this)) this else null
+ }
+ ```
 
-> ```kotlin
-> class User(
->         var age: Int = 0
->         var name: String = ""
->         var email: String = ""
-> );
-> 
-> val user: User? = User().takeIf { 
->     it.age > 0
-> }
->
-> if (user == null) // false
-> ```
+ ```kotlin
+ class User(
+         var age: Int = 0
+         var name: String = ""
+         var email: String = ""
+ );
+ 
+ val user: User? = User().takeIf { 
+     it.age > 0
+ }
+
+ if (user == null) // false
+ ```
 
 
 
