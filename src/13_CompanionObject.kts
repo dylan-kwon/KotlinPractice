@@ -22,6 +22,3 @@ class CompanionObject {
 println(CompanionObject.getType());
 println(CompanionObject.isTypeZero());
 println(CompanionObject.Extra.ID);
-
-
-Activity.Extra.ID

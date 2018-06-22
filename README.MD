@@ -48,7 +48,8 @@
         5. [also](#standard-library-also)
         6. [takeIf](#standard-library-takeif)
         7. [takeUnless](#standard-library-takeunless)
-2. [Reference](#reference)
+2. [코딩 가이드](#coding-guide)
+3. [Reference](#reference)
     
 
 <a name="syntax"></a>
@@ -149,12 +150,23 @@ strVariable2!!.toString()                 // success.
 <a name="variable-init"></a>
 ### 변수 초기화
 - 변수에 접근시 초기화 하는 `늦은 초기화`를 제공한다.
-- `lateinit`: `var`와 함께 사용한다.
-- `by lazy`: `val`과 함께 사용한다.
+- `lateinit`
+    - `var`와 함께 사용한다.
+    - `primitive-type`에는 사용할 수 없다.
+    - `getter`, `setter`를 사용할 수 없다.
+    - `::{name}.isInitialized`를 사용하여 초기화 체크를 할 수 있다.
+    
+- `by lazy`
+    - `val`과 함께 사용한다.
+    - `getter`를 사용할 수 없다.
+    
 - `var`, `val`에서 각각 사용한다는 차이점 외에 동작 방식에는 차이가 없다.
 
 ```kotlin
-lateinit var a: Int = 10
+lateinit var a: String
+a = "lateinit"
+
+if(::a.isInitialized) // true
 
 val b: String by lazy {
     "string"
@@ -1250,7 +1262,7 @@ with(button) {
 
 <a name="standard-library-takeunless"></a>
 #### 7. takeUnless
- - 블록 내에서 `it`를 사용하여 객체에 접근할 수 있다.
+ - 블록 에서 `it`를 사용하여 객체에 접근할 수 있다.ㅎ
  - 블록의 마지막 줄에서 `Boolean`을 리턴한다.
  - 리턴된 값이 `false`인 경우 `접근한 객체`가 리턴되고, `true`인 경우 `null`이 리턴된다.
  - `takeIf`와 반대다.
@@ -1277,6 +1289,11 @@ with(button) {
 
  if (user == null) // false
  ```
+
+
+<a name="coding-guide"></a>
+### 코딩 규칙
+- [https://code-examples.net/ko/docs/kotlin/docs/reference/coding-conventions](https://code-examples.net/ko/docs/kotlin/docs/reference/coding-conventions)
 
 
 <a name="reference"></a>
