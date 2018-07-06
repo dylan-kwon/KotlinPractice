@@ -1085,7 +1085,7 @@ button.setOnClickListener {
 - 고차함수 매개변수가 2개 이상이고, 그중 어떤것은 `liline`을 사용하고 싶지 않을 때 변수 앞에 `noinline`을 사용한다.
 - 매개변수로 전달받은 람다를 호출할 때 함수 몸체에서 직접 호출하지 않는 경우(내부 함수, 람다 )에는 `crossinline`을 사용한다.
 
-```
+```kotlin
 inline fun inlineFunction(blockA: () -> Unit)
 
 inline fun inlineFunction(blockA: () -> Unit, noinline blockB: () -> Unit)
