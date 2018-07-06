@@ -40,7 +40,9 @@
     15. [Lambda](#lambda)
     16. [Higher Order Function](#higher-order-function)
     17. [Single Abstract Method (SAM)](#sam)
-    18. Standard Library
+    18. 기타 키워드
+        1. [inline](#inline)
+    19. Standard Library
         1. [let](#standard-library-let)
         2. [apply](#standard-library-apply)
         3. [run](#standard-library-run)
@@ -1070,6 +1072,32 @@ val button: Button by lazy {
 button.setOnClickListener {
     ...
 }
+```
+
+### 기타 키워드
+
+<a name="inline"></a>
+#### 1. inline
+- 매개변수로 `Higher-Order-Function`을 필요로 하는 함수에 사용한다.
+- 고차함수를 사용할 때 성능상에 발생하는 패널티를 해소한다.
+- 바이트 코드를 조작하여 `liline`키워드를 포함한 함수의 내용이 호출한 곳에 직접적으로 삽입된다.
+- 결과적으로 코드량이 증가하는 단점이 있지만 합리적으로 잘 활용한다면 성능에서 많은 이점이 있다.
+- 고차함수 매개변수가 2개 이상이고, 그중 어떤것은 `liline`을 사용하고 싶지 않을 때 변수 앞에 `noinline`을 사용한다.
+- 매개변수로 전달받은 람다를 호출할 때 함수 몸체에서 직접 호출하지 않는 경우(내부 함수, 람다 )에는 `crossinline`을 사용한다.
+
+```
+inline fun inlineFunction(blockA: () -> Unit)
+
+inline fun inlineFunction(blockA: () -> Unit, noinline blockB: () -> Unit)
+
+inline fun inlineFunction(blockA: () -> Unit, crossinline blockB: () -> Unit) {
+    Runnable {
+        blockB()  // noinline이나 crossinline이 없는 경우 error 발생
+    }
+}
+
+// Java였으면 value instance T는 syntax error가 발생한다.
+inline fun <reified T> inlineFunction(value: Any): Boolean = value is T
 ```
 
 
