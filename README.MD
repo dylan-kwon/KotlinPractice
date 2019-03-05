@@ -1326,8 +1326,9 @@ with(button) {
 
 <a name="reference"></a>
 ### Reference
-- [https://kotlinlang.org/docs/reference](https://kotlinlang.org/docs/reference)
-- [https://thdev.tech/tags/#Kotlin](https://thdev.tech/tags/#Kotlin)
+- [공식 레퍼런스](https://kotlinlang.org/docs/reference)
+- [꿈 많은 개발자가 되자 블로그(Kotlin)](https://thdev.tech/tags/#Kotlin)
+- [Kotlin Keyword 정리](https://medium.com/@joongwon/kotlin-kotlin-%ED%82%A4%EC%9B%8C%EB%93%9C-%EB%B0%8F-%EC%97%B0%EC%82%B0%EC%9E%90-%ED%95%B4%EB%B6%80-1-hard-keywords-3062f5fe2d11)
 
 
 

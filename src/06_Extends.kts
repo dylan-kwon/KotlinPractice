@@ -20,10 +20,6 @@ interface InterfaceBase {
 
     fun moreThan30YearsOld(): Boolean;
 
-    fun getThisYear(): Int {
-        return thisYear;
-    }
-
     fun testMethod(): Boolean = false;
 }
 
@@ -49,12 +45,6 @@ open class Customer(age: Int) : AbstractBase(age), InterfaceBase {
     override fun moreThan30YearsOld(): Boolean = this.age > 30;
     open fun moreThan40YearsOld(): Boolean = this.age > 40;
 
-    override fun getThisYear(): Int {
-        val thisYear: Int = super.getThisYear();
-        println(thisYear);
-        return thisYear;
-    }
-
     override fun testMethod(): Boolean {
         return super<InterfaceBase>.testMethod();
     }
@@ -70,4 +60,4 @@ println(useBase.moreThan10YearsOld());
 println(useBase.moreThan20YearsOld());
 println(useBase.moreThan30YearsOld());
 println(useBase.moreThan40YearsOld());
-println(useBase.getThisYear());
+println(useBase.thisYear);
